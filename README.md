@@ -35,6 +35,7 @@ It is **crucial** that you use a consistent set of versions for the CMSIS Core -
 HAL Driver H7 | CMSIS Device H7 | CMSIS Core | Was delivered in the full MCU package
 ------------- | --------------- | ---------- | -------------------------------------
 Tag v1.6.0 | Tag v1.6.0 | Tag v5.4.0 | Tag v1.5.0 (and following, if any, till next new tag)
+Tag v1.7.0 | Tag v1.7.0 | Tag v5.4.0 | Tag v1.6.0 (and following, if any, till next new tag)
 
 The full **STM32CubeH7** MCU package is available [here](https://github.com/STMicroelectronics/STM32CubeH7).
 
