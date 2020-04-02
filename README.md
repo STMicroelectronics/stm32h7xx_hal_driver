@@ -23,8 +23,12 @@ This **stm32h7xx_hal_driver** MCU component repo is one element of the STM32Cube
 
 Copyright (c) 2017 STMicroelectronics.
 
-This software component is licensed by STMicroelectronics under BSD 3-Clause license. You may not use this file except in compliance with the License. 
+This software component is licensed by STMicroelectronics under BSD-3-Clause license. You may not use this file except in compliance with the License. 
 You may obtain a copy of the License [here](https://opensource.org/licenses/BSD-3-Clause).
+
+## Release note
+
+Details about the content of this release are available in the release note [here](https://htmlpreview.github.io/?https://github.com/STMicroelectronics/stm32h7xx_hal_driver/blob/master/Release_Notes.html).
 
 ## Compatibility information
 
@@ -34,8 +38,9 @@ It is **crucial** that you use a consistent set of versions for the CMSIS Core -
 
 HAL Driver H7 | CMSIS Device H7 | CMSIS Core | Was delivered in the full MCU package
 ------------- | --------------- | ---------- | -------------------------------------
-Tag v1.6.0 | Tag v1.6.0 | Tag v5.4.0 | Tag v1.5.0 (and following, if any, till next new tag)
-Tag v1.7.0 | Tag v1.7.0 | Tag v5.4.0 | Tag v1.6.0 (and following, if any, till next new tag)
+Tag v1.6.0 | Tag v1.6.0 | Tag v5.4.0 | Tag v1.5.0 (and following, if any, till next HAL tag)
+Tag v1.7.0 | Tag v1.7.0 | Tag v5.4.0 | Tag v1.6.0 (and following, if any, till next HAL tag)
+Tag v1.8.0 | Tag v1.8.0 | Tag v5.4.0 | Tag v1.7.0 (and following, if any, till next HAL tag)
 
 The full **STM32CubeH7** MCU package is available [here](https://github.com/STMicroelectronics/STM32CubeH7).
 
