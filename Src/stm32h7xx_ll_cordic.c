@@ -1,12 +1,12 @@
 /**
   ******************************************************************************
-  * @file    stm32h7xx_ll_pwr.c
+  * @file    stm32h7xx_ll_cordic.c
   * @author  MCD Application Team
-  * @brief   PWR LL module driver.
+  * @brief   CORDIC LL module driver.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2017 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2017 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under BSD 3-Clause license,
@@ -16,19 +16,24 @@
   *
   ******************************************************************************
   */
-
-#if defined (USE_FULL_LL_DRIVER)
+#if defined(USE_FULL_LL_DRIVER)
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32h7xx_ll_pwr.h"
+#include "stm32h7xx_ll_cordic.h"
+#include "stm32h7xx_ll_bus.h"
+#ifdef  USE_FULL_ASSERT
+#include "stm32_assert.h"
+#else
+#define assert_param(expr) ((void)0U)
+#endif
 
 /** @addtogroup STM32H7xx_LL_Driver
   * @{
   */
 
-#if defined (PWR)
+#if defined(CORDIC)
 
-/** @defgroup PWR_LL PWR
+/** @addtogroup CORDIC_LL
   * @{
   */
 
@@ -39,30 +44,42 @@
 /* Private function prototypes -----------------------------------------------*/
 
 /* Exported functions --------------------------------------------------------*/
-/** @addtogroup PWR_LL_Exported_Functions
+/** @addtogroup CORDIC_LL_Exported_Functions
   * @{
   */
 
-/** @addtogroup PWR_LL_EF_Init
+/** @addtogroup CORDIC_LL_EF_Init
   * @{
   */
 
 /**
-  * @brief  De-initialize the PWR registers to their default reset values.
+  * @brief  De-Initialize CORDIC peripheral registers to their default reset values.
+  * @param  CORDICx CORDIC Instance
   * @retval An ErrorStatus enumeration value:
-  *          - SUCCESS: PWR registers are de-initialized
-  *          - ERROR: not applicable
+  *          - SUCCESS: CORDIC registers are de-initialized
+  *          - ERROR: CORDIC registers are not de-initialized
   */
-ErrorStatus LL_PWR_DeInit(void)
+ErrorStatus LL_CORDIC_DeInit(CORDIC_TypeDef *CORDICx)
 {
-#if defined (PWR_WKUPCR_WKUPC3)
-  WRITE_REG(PWR->WKUPCR, (PWR_WKUPCR_WKUPC1 | PWR_WKUPCR_WKUPC2 | PWR_WKUPCR_WKUPC3 | \
-                          PWR_WKUPCR_WKUPC4 | PWR_WKUPCR_WKUPC5 | PWR_WKUPCR_WKUPC6));
-#else
-  WRITE_REG(PWR->WKUPCR, (PWR_WKUPCR_WKUPC1 | PWR_WKUPCR_WKUPC2 | \
-                          PWR_WKUPCR_WKUPC4 | PWR_WKUPCR_WKUPC6));
-#endif /* defined (PWR_WKUPCR_WKUPC3) */
-  return SUCCESS;
+  ErrorStatus status = SUCCESS;
+
+  /* Check the parameters */
+  assert_param(IS_CORDIC_ALL_INSTANCE(CORDICx));
+
+  if (CORDICx == CORDIC)
+  {
+    /* Force CORDIC reset */
+    LL_AHB2_GRP1_ForceReset(LL_AHB2_GRP1_PERIPH_CORDIC);
+
+    /* Release CORDIC reset */
+    LL_AHB2_GRP1_ReleaseReset(LL_AHB2_GRP1_PERIPH_CORDIC);
+  }
+  else
+  {
+    status = ERROR;
+  }
+
+  return (status);
 }
 
 /**
@@ -76,11 +93,13 @@ ErrorStatus LL_PWR_DeInit(void)
 /**
   * @}
   */
-#endif /* defined (PWR) */
+
+#endif /* defined(CORDIC) */
+
 /**
   * @}
   */
 
-#endif /* defined (USE_FULL_LL_DRIVER) */
+#endif /* USE_FULL_LL_DRIVER */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
