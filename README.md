@@ -10,7 +10,7 @@
    * The CMSIS modules (core and device) corresponding to the ARM(tm) core implemented in this STM32 product.
    * The STM32 HAL-LL drivers, an abstraction layer offering a set of APIs ensuring maximized portability across the STM32 portfolio.
    * The BSP drivers of each evaluation, demonstration or nucleo board provided for this STM32 series.
-   * A consistent set of middleware components such as RTOS, USB, FatFS, graphics, touch sensing library...
+   * A consistent set of middleware libraries such as RTOS, USB, FatFS, graphics, touch sensing library...
    * A full set of software projects (basic examples, applications, and demonstrations) for each board provided for this STM32 series.
 
 Two models of publication are proposed for the STM32Cube embedded software:
@@ -21,14 +21,7 @@ Two models of publication are proposed for the STM32Cube embedded software:
 
 This **stm32h7xx_hal_driver** MCU component repo is one element of the STM32CubeH7 MCU embedded software package, providing the **HAL-LL Drivers** part.
 
-## License
-
-Copyright (c) 2017 STMicroelectronics.
-
-This software component is licensed by STMicroelectronics under BSD-3-Clause license. You may not use this file except in compliance with the License. 
-You may obtain a copy of the License [here](https://opensource.org/licenses/BSD-3-Clause).
-
-## Release note
+# Release note
 
 Details about the content of this release are available in the release note [here](https://htmlpreview.github.io/?https://github.com/STMicroelectronics/stm32h7xx_hal_driver/blob/master/Release_Notes.html).
 
@@ -45,11 +38,12 @@ Tag v1.7.0    | Tag v1.7.0      | Tag v5.4.0 | Tag v1.6.0 (and following, if any
 Tag v1.8.0    | Tag v1.8.0      | Tag v5.4.0 | Tag v1.7.0 (and following, if any, till next HAL tag)
 Tag v1.9.0    | Tag v1.9.0      | Tag v5.4.0 | Tag v1.8.0 (and following, if any, till next HAL tag)
 Tag v1.10.0   | Tag v1.10.0     | Tag v5.6.0 | Tag v1.9.0 (and following, if any, till next HAL tag)
+Tag v1.10.1   | Tag v1.10.1     | Tag v5.6.0 | Tag v1.9.1 (and following, if any, till next HAL tag)
 
 The full **STM32CubeH7** MCU package is available [here](https://github.com/STMicroelectronics/STM32CubeH7).
 
 ## Troubleshooting
 
-If you have any issue with the **Software content** of this repo, you can [file an issue on Github](https://github.com/STMicroelectronics/stm32h7xx_hal_driver/issues/new).
+If you have any issue with the **software content** of this repository, you can file an issue [here](https://github.com/STMicroelectronics/stm32h7xx_hal_driver/issues/new/choose).
 
 For any other question related to the product, the tools, the environment, you can submit a topic on the [ST Community/STM32 MCUs forum](https://community.st.com/s/group/0F90X000000AXsASAW/stm32-mcus).
