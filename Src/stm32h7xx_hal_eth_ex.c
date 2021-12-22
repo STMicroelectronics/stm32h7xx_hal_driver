@@ -3,7 +3,6 @@
   * @file    stm32h7xx_hal_eth_ex.c
   * @author  MCD Application Team
   * @brief   ETH HAL Extended module driver.
-  *
   ******************************************************************************
   * @attention
   *

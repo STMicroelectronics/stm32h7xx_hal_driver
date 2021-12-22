@@ -1845,5 +1845,3 @@ uint32_t             HAL_ETH_GetMACWakeUpSource(ETH_HandleTypeDef *heth);
 #endif
 
 #endif /* STM32H7xx_HAL_ETH_H */
-
-

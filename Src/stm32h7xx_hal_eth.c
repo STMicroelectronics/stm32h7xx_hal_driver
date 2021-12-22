@@ -9,7 +9,6 @@
   *           + IO operation functions
   *           + Peripheral Control functions
   *           + Peripheral State and Errors functions
-  *
   ******************************************************************************
   * @attention
   *

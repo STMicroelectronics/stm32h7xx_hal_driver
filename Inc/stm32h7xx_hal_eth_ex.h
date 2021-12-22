@@ -364,5 +364,3 @@ uint32_t          HAL_ETHEx_GetMACLPIEvent(ETH_HandleTypeDef *heth);
 #endif
 
 #endif /* STM32H7xx_HAL_ETH_EX_H */
-
-
