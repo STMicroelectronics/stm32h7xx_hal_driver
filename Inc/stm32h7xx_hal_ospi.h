@@ -1029,6 +1029,9 @@ HAL_StatusTypeDef     HAL_OSPIM_Config(OSPI_HandleTypeDef *hospi, OSPIM_CfgTypeD
 
 #define IS_OSPI_CKCSHT(CLK_NB)             ((CLK_NB) <= 7U)
 
+#define IS_OSPI_DLYBYP(MODE)               (((MODE) == HAL_OSPI_DELAY_BLOCK_USED) || \
+                                            ((MODE) == HAL_OSPI_DELAY_BLOCK_BYPASSED))
+
 #define IS_OSPI_MAXTRAN(NB_BYTES)          ((NB_BYTES) <= 255U)
 
 #define IS_OSPIM_PORT(NUMBER)              (((NUMBER) >= 1U) && ((NUMBER) <= 8U))
