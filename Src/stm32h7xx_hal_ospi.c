@@ -365,7 +365,6 @@ HAL_StatusTypeDef HAL_OSPI_Init (OSPI_HandleTypeDef *hospi)
     assert_param(IS_OSPI_SAMPLE_SHIFTING(hospi->Init.SampleShifting));
     assert_param(IS_OSPI_DHQC           (hospi->Init.DelayHoldQuarterCycle));
     assert_param(IS_OSPI_CS_BOUNDARY    (hospi->Init.ChipSelectBoundary));
-    assert_param(IS_OSPI_CKCSHT         (hospi->Init.ClkChipSelectHighTime));
     assert_param(IS_OSPI_DLYBYP         (hospi->Init.DelayBlockBypass));
     assert_param(IS_OSPI_MAXTRAN        (hospi->Init.MaxTran));
 
@@ -403,13 +402,13 @@ HAL_StatusTypeDef HAL_OSPI_Init (OSPI_HandleTypeDef *hospi)
       /* Configure the default timeout for the OSPI memory access */
       (void)HAL_OSPI_SetTimeout(hospi, HAL_OSPI_TIMEOUT_DEFAULT_VALUE);
 
-      /* Configure memory type, device size, chip select high time, clocked chip select high time, delay block bypass, free running clock, clock mode */
+      /* Configure memory type, device size, chip select high time, delay block bypass,
+         free running clock, clock mode */
       MODIFY_REG(hospi->Instance->DCR1,
-                 (OCTOSPI_DCR1_MTYP   | OCTOSPI_DCR1_DEVSIZE | OCTOSPI_DCR1_CSHT | OCTOSPI_DCR1_CKCSHT |
-                  OCTOSPI_DCR1_DLYBYP | OCTOSPI_DCR1_FRCK    | OCTOSPI_DCR1_CKMODE),
+                 (OCTOSPI_DCR1_MTYP | OCTOSPI_DCR1_DEVSIZE | OCTOSPI_DCR1_CSHT | OCTOSPI_DCR1_DLYBYP |
+                  OCTOSPI_DCR1_FRCK | OCTOSPI_DCR1_CKMODE),
                  (hospi->Init.MemoryType | ((hospi->Init.DeviceSize - 1U) << OCTOSPI_DCR1_DEVSIZE_Pos) |
                   ((hospi->Init.ChipSelectHighTime - 1U) << OCTOSPI_DCR1_CSHT_Pos) |
-                  (hospi->Init.ClkChipSelectHighTime << OCTOSPI_DCR1_CKCSHT_Pos) |
                   hospi->Init.DelayBlockBypass | hospi->Init.ClockMode));
 
       /* Configure wrap size */

@@ -39,11 +39,10 @@ Tag v1.8.0    | Tag v1.8.0      | Tag v5.4.0 | Tag v1.7.0 (and following, if any
 Tag v1.9.0    | Tag v1.9.0      | Tag v5.4.0 | Tag v1.8.0 (and following, if any, till next HAL tag)
 Tag v1.10.0   | Tag v1.10.0     | Tag v5.6.0 | Tag v1.9.0 (and following, if any, till next HAL tag)
 Tag v1.10.1   | Tag v1.10.1     | Tag v5.6.0 | Tag v1.9.1 (and following, if any, till next HAL tag)
+Tag v1.11.0   | Tag v1.10.2     | Tag v5.6.0 | Tag v1.10.0 (and following, if any, till next HAL tag)
 
 The full **STM32CubeH7** MCU package is available [here](https://github.com/STMicroelectronics/STM32CubeH7).
 
 ## Troubleshooting
 
-If you have any issue with the **software content** of this repository, you can file an issue [here](https://github.com/STMicroelectronics/stm32h7xx_hal_driver/issues/new/choose).
-
-For any other question related to the product, the tools, the environment, you can submit a topic on the [ST Community/STM32 MCUs forum](https://community.st.com/s/group/0F90X000000AXsASAW/stm32-mcus).
+Please refer to the [CONTRIBUTING.md](CONTRIBUTING.md) guide.
