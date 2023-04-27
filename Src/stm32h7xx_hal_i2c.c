@@ -4853,7 +4853,7 @@ __weak void HAL_I2C_AbortCpltCallback(I2C_HandleTypeDef *hi2c)
   *                the configuration information for the specified I2C.
   * @retval HAL state
   */
-HAL_I2C_StateTypeDef HAL_I2C_GetState(I2C_HandleTypeDef *hi2c)
+HAL_I2C_StateTypeDef HAL_I2C_GetState(const I2C_HandleTypeDef *hi2c)
 {
   /* Return I2C handle state */
   return hi2c->State;
@@ -4865,7 +4865,7 @@ HAL_I2C_StateTypeDef HAL_I2C_GetState(I2C_HandleTypeDef *hi2c)
   *         the configuration information for I2C module
   * @retval HAL mode
   */
-HAL_I2C_ModeTypeDef HAL_I2C_GetMode(I2C_HandleTypeDef *hi2c)
+HAL_I2C_ModeTypeDef HAL_I2C_GetMode(const I2C_HandleTypeDef *hi2c)
 {
   return hi2c->Mode;
 }
@@ -4876,7 +4876,7 @@ HAL_I2C_ModeTypeDef HAL_I2C_GetMode(I2C_HandleTypeDef *hi2c)
   *              the configuration information for the specified I2C.
   * @retval I2C Error Code
   */
-uint32_t HAL_I2C_GetError(I2C_HandleTypeDef *hi2c)
+uint32_t HAL_I2C_GetError(const I2C_HandleTypeDef *hi2c)
 {
   return hi2c->ErrorCode;
 }
