@@ -1831,7 +1831,7 @@ __weak void HAL_SMBUS_ErrorCallback(SMBUS_HandleTypeDef *hsmbus)
   *                the configuration information for the specified SMBUS.
   * @retval HAL state
   */
-uint32_t HAL_SMBUS_GetState(SMBUS_HandleTypeDef *hsmbus)
+uint32_t HAL_SMBUS_GetState(const SMBUS_HandleTypeDef *hsmbus)
 {
   /* Return SMBUS handle state */
   return hsmbus->State;
@@ -1843,7 +1843,7 @@ uint32_t HAL_SMBUS_GetState(SMBUS_HandleTypeDef *hsmbus)
   *              the configuration information for the specified SMBUS.
   * @retval SMBUS Error Code
   */
-uint32_t HAL_SMBUS_GetError(SMBUS_HandleTypeDef *hsmbus)
+uint32_t HAL_SMBUS_GetError(const SMBUS_HandleTypeDef *hsmbus)
 {
   return hsmbus->ErrorCode;
 }
