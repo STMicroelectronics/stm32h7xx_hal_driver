@@ -7012,16 +7012,18 @@ static HAL_StatusTypeDef I2C_WaitOnSTOPFlagUntilTimeout(I2C_HandleTypeDef *hi2c,
 static HAL_StatusTypeDef I2C_WaitOnRXNEFlagUntilTimeout(I2C_HandleTypeDef *hi2c, uint32_t Timeout,
                                                         uint32_t Tickstart)
 {
-  while (__HAL_I2C_GET_FLAG(hi2c, I2C_FLAG_RXNE) == RESET)
+  HAL_StatusTypeDef status = HAL_OK;
+
+  while ((__HAL_I2C_GET_FLAG(hi2c, I2C_FLAG_RXNE) == RESET) && (status == HAL_OK))
   {
     /* Check if an error is detected */
     if (I2C_IsErrorOccurred(hi2c, Timeout, Tickstart) != HAL_OK)
     {
-      return HAL_ERROR;
+      status = HAL_ERROR;
     }
 
     /* Check if a STOPF is detected */
-    if (__HAL_I2C_GET_FLAG(hi2c, I2C_FLAG_STOPF) == SET)
+    if ((__HAL_I2C_GET_FLAG(hi2c, I2C_FLAG_STOPF) == SET) && (status == HAL_OK))
     {
       /* Check if an RXNE is pending */
       /* Store Last receive data if any */
@@ -7029,19 +7031,14 @@ static HAL_StatusTypeDef I2C_WaitOnRXNEFlagUntilTimeout(I2C_HandleTypeDef *hi2c,
       {
         /* Return HAL_OK */
         /* The Reading of data from RXDR will be done in caller function */
-        return HAL_OK;
+        status = HAL_OK;
       }
-      else
+
+      /* Check a no-acknowledge have been detected */
+      if (__HAL_I2C_GET_FLAG(hi2c, I2C_FLAG_AF) == SET)
       {
-        if (__HAL_I2C_GET_FLAG(hi2c, I2C_FLAG_AF) == SET)
-        {
-          __HAL_I2C_CLEAR_FLAG(hi2c, I2C_FLAG_AF);
-          hi2c->ErrorCode = HAL_I2C_ERROR_AF;
-        }
-        else
-        {
-          hi2c->ErrorCode = HAL_I2C_ERROR_NONE;
-        }
+        __HAL_I2C_CLEAR_FLAG(hi2c, I2C_FLAG_AF);
+        hi2c->ErrorCode = HAL_I2C_ERROR_AF;
 
         /* Clear STOP Flag */
         __HAL_I2C_CLEAR_FLAG(hi2c, I2C_FLAG_STOPF);
@@ -7055,12 +7052,16 @@ static HAL_StatusTypeDef I2C_WaitOnRXNEFlagUntilTimeout(I2C_HandleTypeDef *hi2c,
         /* Process Unlocked */
         __HAL_UNLOCK(hi2c);
 
-        return HAL_ERROR;
+        status = HAL_ERROR;
+      }
+      else
+      {
+        hi2c->ErrorCode = HAL_I2C_ERROR_NONE;
       }
     }
 
     /* Check for the Timeout */
-    if (((HAL_GetTick() - Tickstart) > Timeout) || (Timeout == 0U))
+    if ((((HAL_GetTick() - Tickstart) > Timeout) || (Timeout == 0U)) && (status == HAL_OK))
     {
       if ((__HAL_I2C_GET_FLAG(hi2c, I2C_FLAG_RXNE) == RESET))
       {
@@ -7070,11 +7071,11 @@ static HAL_StatusTypeDef I2C_WaitOnRXNEFlagUntilTimeout(I2C_HandleTypeDef *hi2c,
         /* Process Unlocked */
         __HAL_UNLOCK(hi2c);
 
-        return HAL_ERROR;
+        status = HAL_ERROR;
       }
     }
   }
-  return HAL_OK;
+  return status;
 }
 
 /**
