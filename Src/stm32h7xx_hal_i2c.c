@@ -2776,6 +2776,7 @@ HAL_StatusTypeDef HAL_I2C_Mem_Write_IT(I2C_HandleTypeDef *hi2c, uint16_t DevAddr
     hi2c->ErrorCode   = HAL_I2C_ERROR_NONE;
 
     /* Prepare transfer parameters */
+    hi2c->XferSize    = 0U;
     hi2c->pBuffPtr    = pData;
     hi2c->XferCount   = Size;
     hi2c->XferOptions = I2C_NO_OPTION_FRAME;
