@@ -2404,6 +2404,8 @@ HAL_StatusTypeDef HAL_SPI_TransmitReceive_DMA(SPI_HandleTypeDef *hspi, const uin
   if (HAL_OK != HAL_DMA_Start_IT(hspi->hdmatx, (uint32_t)hspi->pTxBuffPtr, (uint32_t)&hspi->Instance->TXDR,
                                  hspi->TxXferCount))
   {
+    HAL_DMA_Abort(hspi->hdmarx);
+
     /* Update SPI error code */
     SET_BIT(hspi->ErrorCode, HAL_SPI_ERROR_DMA);
 
