@@ -255,7 +255,9 @@ HAL_StatusTypeDef HAL_ADCEx_LinearCalibration_GetValue(ADC_HandleTypeDef *hadc, 
   * @param SingleDiff This parameter can be only:
   *           @arg @ref ADC_SINGLE_ENDED       Channel in mode input single ended
   *           @arg @ref ADC_DIFFERENTIAL_ENDED Channel in mode input differential ended
-  * @param CalibrationFactor Calibration factor (coded on 7 bits maximum)
+  * @param CalibrationFactor Calibration factor On devices STM32H72xx and STM32H73xx this parameter is coded on 11 bits
+  *                                             maximum for ADC1/2 and on 7 bits for ADC3.
+  *                                             On devices STM32H74xx and STM32H75xx this parameter is coded on 11 bits.
   * @retval HAL state
   */
 HAL_StatusTypeDef HAL_ADCEx_Calibration_SetValue(ADC_HandleTypeDef *hadc, uint32_t SingleDiff, uint32_t CalibrationFactor)
@@ -267,7 +269,19 @@ HAL_StatusTypeDef HAL_ADCEx_Calibration_SetValue(ADC_HandleTypeDef *hadc, uint32
   /* Check the parameters */
   assert_param(IS_ADC_ALL_INSTANCE(hadc->Instance));
   assert_param(IS_ADC_SINGLE_DIFFERENTIAL(SingleDiff));
+
+#if defined(ADC_VER_V5_V90)
+  if (hadc->Instance == ADC3)
+  {
+    assert_param(IS_ADC_CALFACT_ADC3(CalibrationFactor));
+  }
+  else
+  {
+    assert_param(IS_ADC_CALFACT(CalibrationFactor));
+  }
+#else
   assert_param(IS_ADC_CALFACT(CalibrationFactor));
+#endif
 
   /* Process locked */
   __HAL_LOCK(hadc);
