@@ -1149,6 +1149,7 @@ HAL_StatusTypeDef HAL_ETH_ReadData(ETH_HandleTypeDef *heth, void **pAppBuff)
   */
 static void ETH_UpdateDescriptor(ETH_HandleTypeDef *heth)
 {
+  uint32_t tailidx;
   uint32_t descidx;
   uint32_t desccount;
   ETH_DMADescTypeDef *dmarxdesc;
@@ -1185,9 +1186,6 @@ static void ETH_UpdateDescriptor(ETH_HandleTypeDef *heth)
 
     if (allocStatus != 0U)
     {
-      /* Ensure rest of descriptor is written to RAM before the OWN bit */
-      __DMB();
-
       if (heth->RxDescList.ItMode != 0U)
       {
         WRITE_REG(dmarxdesc->DESC3, ETH_DMARXNDESCRF_OWN | ETH_DMARXNDESCRF_BUF1V | ETH_DMARXNDESCRF_IOC);
@@ -1207,8 +1205,14 @@ static void ETH_UpdateDescriptor(ETH_HandleTypeDef *heth)
 
   if (heth->RxDescList.RxBuildDescCnt != desccount)
   {
+    /* Set the tail pointer index */
+    tailidx = (descidx + 1U) % ETH_RX_DESC_CNT;
+
+    /* DMB instruction to avoid race condition */
+    __DMB();
+
     /* Set the Tail pointer address */
-    WRITE_REG(heth->Instance->DMACRDTPR, 0);
+    WRITE_REG(heth->Instance->DMACRDTPR, ((uint32_t)(heth->Init.RxDesc + (tailidx))));
 
     heth->RxDescList.RxBuildDescIdx = descidx;
     heth->RxDescList.RxBuildDescCnt = desccount;
