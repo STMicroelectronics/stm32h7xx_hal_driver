@@ -307,6 +307,7 @@ static HAL_StatusTypeDef OSPI_WaitFlagStateUntilTimeout(OSPI_HandleTypeDef *hosp
                                                         uint32_t Tickstart, uint32_t Timeout);
 static HAL_StatusTypeDef OSPI_ConfigCmd                (OSPI_HandleTypeDef *hospi, OSPI_RegularCmdTypeDef *cmd);
 static HAL_StatusTypeDef OSPIM_GetConfig               (uint8_t instance_nb, OSPIM_CfgTypeDef *cfg);
+static void OSPI_DMAAbortOnError(MDMA_HandleTypeDef *hmdma);
 /**
   @endcond
   */
@@ -1489,7 +1490,8 @@ HAL_StatusTypeDef HAL_OSPI_Transmit_DMA(OSPI_HandleTypeDef *hospi, uint8_t *pDat
               /* Enable the transfer error interrupt */
               __HAL_OSPI_ENABLE_IT(hospi, HAL_OSPI_IT_TE);
 
-              /* Enable the MDMA transfer by setting the DMAEN bit not needed for MDMA*/
+              /* Enable the DMA transfer by setting the DMAEN bit  */
+              SET_BIT(hospi->Instance->CR, OCTOSPI_CR_DMAEN);
             }
             else
             {
@@ -1608,7 +1610,8 @@ HAL_StatusTypeDef HAL_OSPI_Receive_DMA(OSPI_HandleTypeDef *hospi, uint8_t *pData
               }
             }
 
-            /* Enable the MDMA transfer by setting the DMAEN bit not needed for MDMA*/
+            /* Enable the DMA transfer by setting the DMAEN bit  */
+            SET_BIT(hospi->Instance->CR, OCTOSPI_CR_DMAEN);
           }
           else
           {
@@ -2747,14 +2750,53 @@ static void OSPI_DMAError(MDMA_HandleTypeDef *hmdma)
   /* Disable the DMA transfer on the OctoSPI side */
   CLEAR_BIT(hospi->Instance->CR, OCTOSPI_CR_DMAEN);
 
-  /* Abort the OctoSPI */
-  if (HAL_OSPI_Abort_IT(hospi) != HAL_OK)
-  {
-    /* Disable the interrupts */
-    __HAL_OSPI_DISABLE_IT(hospi, HAL_OSPI_IT_TC | HAL_OSPI_IT_FT | HAL_OSPI_IT_TE);
+  /* Disable all interrupts */
+  __HAL_OSPI_DISABLE_IT(hospi, HAL_OSPI_IT_TC | HAL_OSPI_IT_FT | HAL_OSPI_IT_TE);
 
     /* Update state */
-    hospi->State = HAL_OSPI_STATE_READY;
+    hospi->State = HAL_OSPI_STATE_ABORT;
+
+    /* Disable the DMA transfer on the DMA side */
+    hospi->hmdma->XferAbortCallback = OSPI_DMAAbortOnError;
+    if (HAL_MDMA_Abort_IT(hospi->hmdma) != HAL_OK)
+    {
+      /* Update state */
+      hospi->State = HAL_OSPI_STATE_READY;
+
+      /* Error callback */
+#if defined (USE_HAL_OSPI_REGISTER_CALLBACKS) && (USE_HAL_OSPI_REGISTER_CALLBACKS == 1U)
+      hospi->ErrorCallback(hospi);
+#else
+      HAL_OSPI_ErrorCallback(hospi);
+#endif /*(USE_HAL_OSPI_REGISTER_CALLBACKS) && (USE_HAL_OSPI_REGISTER_CALLBACKS == 1U) */
+    }
+}
+
+/**
+  * @brief  DMA OSPI abort complete callback.
+  * @param  hdma : DMA handle
+  * @retval None
+  */
+static void OSPI_DMAAbortOnError(MDMA_HandleTypeDef *hmdma)
+{
+  OSPI_HandleTypeDef* hospi = ( OSPI_HandleTypeDef* )(hmdma->Parent);
+
+    /* DMA abort called by OctoSPI abort */
+    if (__HAL_OSPI_GET_FLAG(hospi, HAL_OSPI_FLAG_BUSY) != RESET)
+    {
+      /* Clear transfer complete flag */
+      __HAL_OSPI_CLEAR_FLAG(hospi, HAL_OSPI_FLAG_TC);
+
+      /* Enable the transfer complete interrupts */
+      __HAL_OSPI_ENABLE_IT(hospi, HAL_OSPI_IT_TC);
+
+      /* Perform an abort of the OctoSPI */
+      SET_BIT(hospi->Instance->CR, OCTOSPI_CR_ABORT);
+    }
+    else
+    {
+      /* Update state */
+      hospi->State = HAL_OSPI_STATE_READY;
 
     /* Error callback */
 #if defined (USE_HAL_OSPI_REGISTER_CALLBACKS) && (USE_HAL_OSPI_REGISTER_CALLBACKS == 1U)
@@ -2762,7 +2804,7 @@ static void OSPI_DMAError(MDMA_HandleTypeDef *hmdma)
 #else
     HAL_OSPI_ErrorCallback(hospi);
 #endif /*(USE_HAL_OSPI_REGISTER_CALLBACKS) && (USE_HAL_OSPI_REGISTER_CALLBACKS == 1U) */
-  }
+    }
 }
 
 /**
