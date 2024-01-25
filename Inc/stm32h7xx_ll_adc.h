@@ -6025,8 +6025,8 @@ __STATIC_INLINE void LL_ADC_SetAnalogWDThresholds(ADC_TypeDef *ADCx, uint32_t AW
     __IO uint32_t *preg = __ADC_PTR_REG_OFFSET(ADCx->LTR1_TR1, ((AWDy & ADC_AWD_TRX_REGOFFSET_MASK) >> ADC_AWD_TRX_REGOFFSET_POS));
 
     MODIFY_REG(*preg,
-               AWDThresholdsHighLow,
-               AWDThresholdValue << ((AWDThresholdsHighLow & ADC_AWD_TRX_BIT_HIGH_MASK) >> ADC_AWD_TRX_BIT_HIGH_SHIFT4));
+               (ADC3_TR1_LT1 << (AWDThresholdsHighLow * ADC3_TR1_HT1_Pos)),
+               AWDThresholdValue << (((AWDThresholdsHighLow * ADC3_TR1_HT1) & ADC_AWD_TRX_BIT_HIGH_MASK) >> ADC_AWD_TRX_BIT_HIGH_SHIFT4));
   }
   else
   {
@@ -6081,11 +6081,24 @@ __STATIC_INLINE void LL_ADC_SetAnalogWDThresholds(ADC_TypeDef *ADCx, uint32_t AW
 __STATIC_INLINE uint32_t LL_ADC_GetAnalogWDThresholds(ADC_TypeDef *ADCx, uint32_t AWDy, uint32_t AWDThresholdsHighLow)
 {
 #if defined(ADC_VER_V5_V90)
-  const __IO uint32_t *preg = __ADC_PTR_REG_OFFSET(ADCx->LTR1_TR1, (((AWDy & ADC_AWD_TRX_REGOFFSET_MASK) >> ADC_AWD_TRX_REGOFFSET_POS) * 2UL)
-                                                            + ((AWDy & ADC_AWD_TR12_REGOFFSETGAP_MASK) * ADC_AWD_TR12_REGOFFSETGAP_VAL)
-                                                            + (AWDThresholdsHighLow));
+  if (ADCx == ADC3)
+  {
+    const __IO uint32_t *preg = __ADC_PTR_REG_OFFSET(ADCx->LTR1_TR1,
+                                                     ((AWDy & ADC_AWD_TRX_REGOFFSET_MASK) >> ADC_AWD_TRX_REGOFFSET_POS));
 
-  return (uint32_t)(READ_BIT(*preg, ADC_LTR_LT));
+    return (uint32_t)(READ_BIT(*preg,
+                               (ADC3_TR1_LT1 << (AWDThresholdsHighLow * ADC3_TR1_HT1_Pos)))
+                      >> (((AWDThresholdsHighLow & ADC_AWD_TRX_BIT_HIGH_MASK) >> ADC_AWD_TRX_BIT_HIGH_SHIFT4)
+                          & ~(AWDThresholdsHighLow & ADC3_TR1_LT1)));
+  }
+  else
+  {
+    const __IO uint32_t *preg = __ADC_PTR_REG_OFFSET(ADCx->LTR1_TR1, (((AWDy & ADC_AWD_TRX_REGOFFSET_MASK) >> ADC_AWD_TRX_REGOFFSET_POS) * 2UL)
+                                                                   + ((AWDy & ADC_AWD_TR12_REGOFFSETGAP_MASK) * ADC_AWD_TR12_REGOFFSETGAP_VAL)
+                                                                   + (AWDThresholdsHighLow));
+
+    return (uint32_t)(READ_BIT(*preg, ADC_LTR_LT));
+  }
 #else
    const __IO uint32_t *preg = __ADC_PTR_REG_OFFSET(ADCx->LTR1, (((AWDy & ADC_AWD_TRX_REGOFFSET_MASK) >> ADC_AWD_TRX_REGOFFSET_POS) * 2UL)
                                                                    + ((AWDy & ADC_AWD_TR12_REGOFFSETGAP_MASK) * ADC_AWD_TR12_REGOFFSETGAP_VAL)
@@ -6150,7 +6163,8 @@ __STATIC_INLINE void LL_ADC_ConfigAnalogWDThresholds(ADC_TypeDef *ADCx, uint32_t
   /* containing other bits reserved for other purpose.                        */
   if (ADCx == ADC3)
   {
-    uint32_t __IO *preg = __ADC_PTR_REG_OFFSET(ADCx->LTR1_TR1, ((AWDy & ADC_AWD_TRX_REGOFFSET_MASK) >> ADC_AWD_TRX_REGOFFSET_POS));
+    __IO uint32_t *preg = __ADC_PTR_REG_OFFSET(ADCx->LTR1_TR1,
+                                               ((AWDy & ADC_AWD_TRX_REGOFFSET_MASK) >> ADC_AWD_TRX_REGOFFSET_POS));
 
     MODIFY_REG(*preg,
                ADC3_TR1_HT1 | ADC3_TR1_LT1,
