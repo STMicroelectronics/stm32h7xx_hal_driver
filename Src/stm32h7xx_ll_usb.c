@@ -1438,7 +1438,7 @@ HAL_StatusTypeDef USB_HostInit(USB_OTG_GlobalTypeDef *USBx, USB_OTG_CfgTypeDef c
   USBx->GCCFG &= ~(USB_OTG_GCCFG_BCDEN);
 
 
-  if ((USBx->CID & (0x1U << 8)) != 0U)
+  if ((USBx->GUSBCFG & USB_OTG_GUSBCFG_PHYSEL) == 0U)
   {
     if (cfg.speed == USBH_FSLS_SPEED)
     {
@@ -1480,21 +1480,10 @@ HAL_StatusTypeDef USB_HostInit(USB_OTG_GlobalTypeDef *USBx, USB_OTG_CfgTypeDef c
 
   /* Clear any pending interrupts */
   USBx->GINTSTS = CLEAR_INTERRUPT_MASK;
-
-  if ((USBx->CID & (0x1U << 8)) != 0U)
-  {
-    /* set Rx FIFO size */
-    USBx->GRXFSIZ  = 0x200U;
-    USBx->DIEPTXF0_HNPTXFSIZ = (uint32_t)(((0x100U << 16) & USB_OTG_NPTXFD) | 0x200U);
-    USBx->HPTXFSIZ = (uint32_t)(((0xE0U << 16) & USB_OTG_HPTXFSIZ_PTXFD) | 0x300U);
-  }
-  else
-  {
-    /* set Rx FIFO size */
-    USBx->GRXFSIZ  = 0x80U;
-    USBx->DIEPTXF0_HNPTXFSIZ = (uint32_t)(((0x60U << 16) & USB_OTG_NPTXFD) | 0x80U);
-    USBx->HPTXFSIZ = (uint32_t)(((0x40U << 16)& USB_OTG_HPTXFSIZ_PTXFD) | 0xE0U);
-  }
+  /* set Rx FIFO size */
+  USBx->GRXFSIZ  = 0x200U;
+  USBx->DIEPTXF0_HNPTXFSIZ = (uint32_t)(((0x100U << 16) & USB_OTG_NPTXFD) | 0x200U);
+  USBx->HPTXFSIZ = (uint32_t)(((0xE0U << 16) & USB_OTG_HPTXFSIZ_PTXFD) | 0x300U);
 
   /* Enable the common interrupts */
   if (cfg.dma_enable == 0U)
@@ -1683,11 +1672,8 @@ HAL_StatusTypeDef USB_HC_Init(USB_OTG_GlobalTypeDef *USBx, uint8_t ch_num,
       }
       else
       {
-        if ((USBx->CID & (0x1U << 8)) != 0U)
-        {
-          USBx_HC((uint32_t)ch_num)->HCINTMSK |= USB_OTG_HCINTMSK_NYET |
-                                                 USB_OTG_HCINTMSK_ACKM;
-        }
+        USBx_HC((uint32_t)ch_num)->HCINTMSK |= USB_OTG_HCINTMSK_NYET |
+                                               USB_OTG_HCINTMSK_ACKM;
       }
       break;
 
@@ -1789,17 +1775,20 @@ HAL_StatusTypeDef USB_HC_StartXfer(USB_OTG_GlobalTypeDef *USBx, USB_OTG_HCTypeDe
   uint16_t num_packets;
   uint16_t max_hc_pkt_count = HC_MAX_PKT_CNT;
 
-  if (((USBx->CID & (0x1U << 8)) != 0U) && (hc->speed == USBH_HS_SPEED))
+  /* in DMA mode host Core automatically issues ping in case of NYET/NAK */
+  if (dma == 1U)
   {
-    /* in DMA mode host Core automatically issues ping  in case of NYET/NAK */
-    if ((dma == 1U) && ((hc->ep_type == EP_TYPE_CTRL) || (hc->ep_type == EP_TYPE_BULK)))
+    if ((hc->ep_type == EP_TYPE_CTRL) || (hc->ep_type == EP_TYPE_BULK))
     {
+
       USBx_HC((uint32_t)ch_num)->HCINTMSK &= ~(USB_OTG_HCINTMSK_NYET |
                                                USB_OTG_HCINTMSK_ACKM |
                                                USB_OTG_HCINTMSK_NAKM);
     }
-
-    if ((dma == 0U) && (hc->do_ping == 1U))
+  }
+  else
+  {
+    if ((hc->speed == USBH_HS_SPEED) && (hc->do_ping == 1U))
     {
       (void)USB_DoPing(USBx, hc->ch_num);
       return HAL_OK;

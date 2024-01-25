@@ -122,7 +122,6 @@ static HAL_StatusTypeDef PCD_EP_OutSetupPacket_int(PCD_HandleTypeDef *hpcd, uint
   */
 HAL_StatusTypeDef HAL_PCD_Init(PCD_HandleTypeDef *hpcd)
 {
-  USB_OTG_GlobalTypeDef *USBx;
   uint8_t i;
 
   /* Check the PCD handle allocation */
@@ -133,8 +132,6 @@ HAL_StatusTypeDef HAL_PCD_Init(PCD_HandleTypeDef *hpcd)
 
   /* Check the parameters */
   assert_param(IS_PCD_ALL_INSTANCE(hpcd->Instance));
-
-  USBx = hpcd->Instance;
 
   if (hpcd->State == HAL_PCD_STATE_RESET)
   {
@@ -170,12 +167,6 @@ HAL_StatusTypeDef HAL_PCD_Init(PCD_HandleTypeDef *hpcd)
   }
 
   hpcd->State = HAL_PCD_STATE_BUSY;
-
-  /* Disable DMA mode for FS instance */
-  if ((USBx->CID & (0x1U << 8)) == 0U)
-  {
-    hpcd->Init.dma_enable = 0U;
-  }
 
   /* Disable the Interrupts */
   __HAL_PCD_DISABLE(hpcd);
@@ -1004,7 +995,7 @@ HAL_StatusTypeDef HAL_PCD_Start(PCD_HandleTypeDef *hpcd)
 
   __HAL_LOCK(hpcd);
 
-  if (((USBx->CID & (0x1U << 8)) == 0U) &&
+  if (((USBx->GUSBCFG & USB_OTG_GUSBCFG_PHYSEL) != 0U) &&
       (hpcd->Init.battery_charging_enable == 1U))
   {
     /* Enable USB Transceiver */
@@ -1033,7 +1024,7 @@ HAL_StatusTypeDef HAL_PCD_Stop(PCD_HandleTypeDef *hpcd)
 
   (void)USB_FlushTxFifo(hpcd->Instance, 0x10U);
 
-  if (((USBx->CID & (0x1U << 8)) == 0U) &&
+  if (((USBx->GUSBCFG & USB_OTG_GUSBCFG_PHYSEL) != 0U) &&
       (hpcd->Init.battery_charging_enable == 1U))
   {
     /* Disable USB Transceiver */
@@ -1709,7 +1700,7 @@ HAL_StatusTypeDef HAL_PCD_DevConnect(PCD_HandleTypeDef *hpcd)
 
   __HAL_LOCK(hpcd);
 
-  if (((USBx->CID & (0x1U << 8)) == 0U) &&
+  if (((USBx->GUSBCFG & USB_OTG_GUSBCFG_PHYSEL) != 0U) &&
       (hpcd->Init.battery_charging_enable == 1U))
   {
     /* Enable USB Transceiver */
@@ -1733,7 +1724,7 @@ HAL_StatusTypeDef HAL_PCD_DevDisconnect(PCD_HandleTypeDef *hpcd)
   __HAL_LOCK(hpcd);
   (void)USB_DevDisconnect(hpcd->Instance);
 
-  if (((USBx->CID & (0x1U << 8)) == 0U) &&
+  if (((USBx->GUSBCFG & USB_OTG_GUSBCFG_PHYSEL) != 0U) &&
       (hpcd->Init.battery_charging_enable == 1U))
   {
     /* Disable USB Transceiver */
