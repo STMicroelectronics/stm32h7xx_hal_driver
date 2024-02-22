@@ -1972,7 +1972,7 @@ void HAL_ETH_IRQHandler(ETH_HandleTypeDef *heth)
   if (__HAL_ETH_MAC_GET_IT(heth, ETH_MAC_LPI_IT))
   {
     /* Get MAC LPI interrupt source and clear the status register pending bit */
-    heth->MACLPIEvent = READ_BIT(heth->Instance->MACPCSR, 0x0000000FU);
+    heth->MACLPIEvent = READ_BIT(heth->Instance->MACLCSR, 0x0000000FU);
 
 #if (USE_HAL_ETH_REGISTER_CALLBACKS == 1)
     /* Call registered EEE callback*/
