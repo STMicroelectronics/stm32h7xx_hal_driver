@@ -2438,30 +2438,35 @@ void HAL_ETH_SetMDIOClockRange(ETH_HandleTypeDef *heth)
   hclk = HAL_RCC_GetHCLKFreq();
 
   /* Set CR bits depending on hclk value */
-  if ((hclk >= 20000000U) && (hclk < 35000000U))
+  if (hclk < 35000000U)
   {
-    /* CSR Clock Range between 20-35 MHz */
+    /* CSR Clock Range between 0-35 MHz */
     tmpreg |= (uint32_t)ETH_MACMDIOAR_CR_DIV16;
   }
-  else if ((hclk >= 35000000U) && (hclk < 60000000U))
+  else if (hclk < 60000000U)
   {
     /* CSR Clock Range between 35-60 MHz */
     tmpreg |= (uint32_t)ETH_MACMDIOAR_CR_DIV26;
   }
-  else if ((hclk >= 60000000U) && (hclk < 100000000U))
+  else if (hclk < 100000000U)
   {
     /* CSR Clock Range between 60-100 MHz */
     tmpreg |= (uint32_t)ETH_MACMDIOAR_CR_DIV42;
   }
-  else if ((hclk >= 100000000U) && (hclk < 150000000U))
+  else if (hclk < 150000000U)
   {
     /* CSR Clock Range between 100-150 MHz */
     tmpreg |= (uint32_t)ETH_MACMDIOAR_CR_DIV62;
   }
-  else /* (hclk >= 150000000)&&(hclk <= 200000000) */
+  else if (hclk < 250000000U)
   {
-    /* CSR Clock Range between 150-200 MHz */
+    /* CSR Clock Range between 150-250 MHz */
     tmpreg |= (uint32_t)ETH_MACMDIOAR_CR_DIV102;
+  }
+  else /* (hclk >= 250000000U) */
+  {
+    /* CSR Clock >= 250 MHz */
+    tmpreg |= (uint32_t)(ETH_MACMDIOAR_CR_DIV124);
   }
 
   /* Configure the CSR Clock Range */
