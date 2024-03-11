@@ -1121,6 +1121,11 @@ HAL_StatusTypeDef HAL_SPI_Receive(SPI_HandleTypeDef *hspi, uint8_t *pData, uint1
       }
       else
       {
+        /* Clear the suspend flag to make receive start again */
+        if(__HAL_SPI_GET_FLAG(hspi, SPI_FLAG_SUSP))
+        {
+          __HAL_SPI_CLEAR_SUSPFLAG(hspi);
+        }
         /* Timeout management */
         if ((((HAL_GetTick() - tickstart) >=  Timeout) && (Timeout != HAL_MAX_DELAY)) || (Timeout == 0U))
         {
@@ -1156,6 +1161,11 @@ HAL_StatusTypeDef HAL_SPI_Receive(SPI_HandleTypeDef *hspi, uint8_t *pData, uint1
       }
       else
       {
+        /* Clear the suspend flag to make receive start again */
+        if(__HAL_SPI_GET_FLAG(hspi, SPI_FLAG_SUSP))
+        {
+          __HAL_SPI_CLEAR_SUSPFLAG(hspi);
+        }
         /* Timeout management */
         if ((((HAL_GetTick() - tickstart) >=  Timeout) && (Timeout != HAL_MAX_DELAY)) || (Timeout == 0U))
         {
@@ -1187,6 +1197,11 @@ HAL_StatusTypeDef HAL_SPI_Receive(SPI_HandleTypeDef *hspi, uint8_t *pData, uint1
       }
       else
       {
+        /* Clear the suspend flag to make receive start again */
+        if(__HAL_SPI_GET_FLAG(hspi, SPI_FLAG_SUSP))
+        {
+          __HAL_SPI_CLEAR_SUSPFLAG(hspi);
+        }
         /* Timeout management */
         if ((((HAL_GetTick() - tickstart) >=  Timeout) && (Timeout != HAL_MAX_DELAY)) || (Timeout == 0U))
         {
