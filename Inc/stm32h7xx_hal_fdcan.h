@@ -427,10 +427,10 @@ typedef struct
                                     - 0 : Last received CAN FD message did not have its BRS flag set
                                     - 1 : Last received CAN FD message had its BRS flag set                    */
 
-  uint32_t RxFDFflag;         /*!< Specifies if CAN FD message (FDF flag set) has been received since last
-                                   protocol status.
+  uint32_t RxFDFflag;         /*!< Specifies if CAN FD message (FDF flag set) has been received
+                                   since last protocol status.
                                    This parameter can be:
-                                    - 0 : no CAN FD message received
+                                    - 0 : No CAN FD message received
                                     - 1 : CAN FD message received                                              */
 
   uint32_t ProtocolException; /*!< Specifies the FDCAN module Protocol Exception status.
@@ -765,15 +765,15 @@ typedef struct
   */
 typedef enum
 {
-  HAL_FDCAN_TX_FIFO_EMPTY_CB_ID        = 0x00U, /*!< FDCAN Tx Fifo Empty callback ID         */
-  HAL_FDCAN_RX_BUFFER_NEW_MSG_CB_ID    = 0x01U, /*!< FDCAN Rx buffer new message callback ID */
-  HAL_FDCAN_HIGH_PRIO_MESSAGE_CB_ID    = 0x02U, /*!< FDCAN High priority message callback ID */
-  HAL_FDCAN_TIMESTAMP_WRAPAROUND_CB_ID = 0x03U, /*!< FDCAN Timestamp wraparound callback ID  */
-  HAL_FDCAN_TIMEOUT_OCCURRED_CB_ID     = 0x04U, /*!< FDCAN Timeout occurred callback ID      */
-  HAL_FDCAN_ERROR_CALLBACK_CB_ID       = 0x05U, /*!< FDCAN Error callback ID                 */
+  HAL_FDCAN_TX_FIFO_EMPTY_CB_ID        = 0x00U,    /*!< FDCAN Tx Fifo Empty callback ID         */
+  HAL_FDCAN_RX_BUFFER_NEW_MSG_CB_ID    = 0x01U,    /*!< FDCAN Rx buffer new message callback ID */
+  HAL_FDCAN_HIGH_PRIO_MESSAGE_CB_ID    = 0x02U,    /*!< FDCAN High priority message callback ID */
+  HAL_FDCAN_TIMESTAMP_WRAPAROUND_CB_ID = 0x03U,    /*!< FDCAN Timestamp wraparound callback ID  */
+  HAL_FDCAN_TIMEOUT_OCCURRED_CB_ID     = 0x04U,    /*!< FDCAN Timeout occurred callback ID      */
+  HAL_FDCAN_ERROR_CALLBACK_CB_ID       = 0x05U,    /*!< FDCAN Error callback ID                 */
 
-  HAL_FDCAN_MSPINIT_CB_ID              = 0x06U, /*!< FDCAN MspInit callback ID               */
-  HAL_FDCAN_MSPDEINIT_CB_ID            = 0x07U, /*!< FDCAN MspDeInit callback ID             */
+  HAL_FDCAN_MSPINIT_CB_ID              = 0x06U,    /*!< FDCAN MspInit callback ID               */
+  HAL_FDCAN_MSPDEINIT_CB_ID            = 0x07U,    /*!< FDCAN MspDeInit callback ID             */
 
 } HAL_FDCAN_CallbackIDTypeDef;
 
@@ -874,21 +874,21 @@ typedef  void (*pFDCAN_TT_GlobalTimeCallbackTypeDef)(FDCAN_HandleTypeDef *hfdcan
   * @{
   */
 #define FDCAN_CLOCK_DIV1  ((uint32_t)0x00000000U) /*!< Divide kernel clock by 1  */
-#define FDCAN_CLOCK_DIV2  ((uint32_t)0x00010000U) /*!< Divide kernel clock by 2  */
-#define FDCAN_CLOCK_DIV4  ((uint32_t)0x00020000U) /*!< Divide kernel clock by 4  */
-#define FDCAN_CLOCK_DIV6  ((uint32_t)0x00030000U) /*!< Divide kernel clock by 6  */
-#define FDCAN_CLOCK_DIV8  ((uint32_t)0x00040000U) /*!< Divide kernel clock by 8  */
-#define FDCAN_CLOCK_DIV10 ((uint32_t)0x00050000U) /*!< Divide kernel clock by 10 */
-#define FDCAN_CLOCK_DIV12 ((uint32_t)0x00060000U) /*!< Divide kernel clock by 12 */
-#define FDCAN_CLOCK_DIV14 ((uint32_t)0x00070000U) /*!< Divide kernel clock by 14 */
-#define FDCAN_CLOCK_DIV16 ((uint32_t)0x00080000U) /*!< Divide kernel clock by 16 */
-#define FDCAN_CLOCK_DIV18 ((uint32_t)0x00090000U) /*!< Divide kernel clock by 18 */
-#define FDCAN_CLOCK_DIV20 ((uint32_t)0x000A0000U) /*!< Divide kernel clock by 20 */
-#define FDCAN_CLOCK_DIV22 ((uint32_t)0x000B0000U) /*!< Divide kernel clock by 22 */
-#define FDCAN_CLOCK_DIV24 ((uint32_t)0x000C0000U) /*!< Divide kernel clock by 24 */
-#define FDCAN_CLOCK_DIV26 ((uint32_t)0x000D0000U) /*!< Divide kernel clock by 26 */
-#define FDCAN_CLOCK_DIV28 ((uint32_t)0x000E0000U) /*!< Divide kernel clock by 28 */
-#define FDCAN_CLOCK_DIV30 ((uint32_t)0x000F0000U) /*!< Divide kernel clock by 30 */
+#define FDCAN_CLOCK_DIV2  ((uint32_t)0x00000001U) /*!< Divide kernel clock by 2  */
+#define FDCAN_CLOCK_DIV4  ((uint32_t)0x00000002U) /*!< Divide kernel clock by 4  */
+#define FDCAN_CLOCK_DIV6  ((uint32_t)0x00000003U) /*!< Divide kernel clock by 6  */
+#define FDCAN_CLOCK_DIV8  ((uint32_t)0x00000004U) /*!< Divide kernel clock by 8  */
+#define FDCAN_CLOCK_DIV10 ((uint32_t)0x00000005U) /*!< Divide kernel clock by 10 */
+#define FDCAN_CLOCK_DIV12 ((uint32_t)0x00000006U) /*!< Divide kernel clock by 12 */
+#define FDCAN_CLOCK_DIV14 ((uint32_t)0x00000007U) /*!< Divide kernel clock by 14 */
+#define FDCAN_CLOCK_DIV16 ((uint32_t)0x00000008U) /*!< Divide kernel clock by 16 */
+#define FDCAN_CLOCK_DIV18 ((uint32_t)0x00000009U) /*!< Divide kernel clock by 18 */
+#define FDCAN_CLOCK_DIV20 ((uint32_t)0x0000000AU) /*!< Divide kernel clock by 20 */
+#define FDCAN_CLOCK_DIV22 ((uint32_t)0x0000000BU) /*!< Divide kernel clock by 22 */
+#define FDCAN_CLOCK_DIV24 ((uint32_t)0x0000000CU) /*!< Divide kernel clock by 24 */
+#define FDCAN_CLOCK_DIV26 ((uint32_t)0x0000000DU) /*!< Divide kernel clock by 26 */
+#define FDCAN_CLOCK_DIV28 ((uint32_t)0x0000000EU) /*!< Divide kernel clock by 28 */
+#define FDCAN_CLOCK_DIV30 ((uint32_t)0x0000000FU) /*!< Divide kernel clock by 30 */
 /**
   * @}
   */
@@ -968,21 +968,21 @@ typedef  void (*pFDCAN_TT_GlobalTimeCallbackTypeDef)(FDCAN_HandleTypeDef *hfdcan
   * @{
   */
 #define FDCAN_DLC_BYTES_0  ((uint32_t)0x00000000U) /*!< 0 bytes data field  */
-#define FDCAN_DLC_BYTES_1  ((uint32_t)0x00010000U) /*!< 1 bytes data field  */
-#define FDCAN_DLC_BYTES_2  ((uint32_t)0x00020000U) /*!< 2 bytes data field  */
-#define FDCAN_DLC_BYTES_3  ((uint32_t)0x00030000U) /*!< 3 bytes data field  */
-#define FDCAN_DLC_BYTES_4  ((uint32_t)0x00040000U) /*!< 4 bytes data field  */
-#define FDCAN_DLC_BYTES_5  ((uint32_t)0x00050000U) /*!< 5 bytes data field  */
-#define FDCAN_DLC_BYTES_6  ((uint32_t)0x00060000U) /*!< 6 bytes data field  */
-#define FDCAN_DLC_BYTES_7  ((uint32_t)0x00070000U) /*!< 7 bytes data field  */
-#define FDCAN_DLC_BYTES_8  ((uint32_t)0x00080000U) /*!< 8 bytes data field  */
-#define FDCAN_DLC_BYTES_12 ((uint32_t)0x00090000U) /*!< 12 bytes data field */
-#define FDCAN_DLC_BYTES_16 ((uint32_t)0x000A0000U) /*!< 16 bytes data field */
-#define FDCAN_DLC_BYTES_20 ((uint32_t)0x000B0000U) /*!< 20 bytes data field */
-#define FDCAN_DLC_BYTES_24 ((uint32_t)0x000C0000U) /*!< 24 bytes data field */
-#define FDCAN_DLC_BYTES_32 ((uint32_t)0x000D0000U) /*!< 32 bytes data field */
-#define FDCAN_DLC_BYTES_48 ((uint32_t)0x000E0000U) /*!< 48 bytes data field */
-#define FDCAN_DLC_BYTES_64 ((uint32_t)0x000F0000U) /*!< 64 bytes data field */
+#define FDCAN_DLC_BYTES_1  ((uint32_t)0x00000001U) /*!< 1 bytes data field  */
+#define FDCAN_DLC_BYTES_2  ((uint32_t)0x00000002U) /*!< 2 bytes data field  */
+#define FDCAN_DLC_BYTES_3  ((uint32_t)0x00000003U) /*!< 3 bytes data field  */
+#define FDCAN_DLC_BYTES_4  ((uint32_t)0x00000004U) /*!< 4 bytes data field  */
+#define FDCAN_DLC_BYTES_5  ((uint32_t)0x00000005U) /*!< 5 bytes data field  */
+#define FDCAN_DLC_BYTES_6  ((uint32_t)0x00000006U) /*!< 6 bytes data field  */
+#define FDCAN_DLC_BYTES_7  ((uint32_t)0x00000007U) /*!< 7 bytes data field  */
+#define FDCAN_DLC_BYTES_8  ((uint32_t)0x00000008U) /*!< 8 bytes data field  */
+#define FDCAN_DLC_BYTES_12 ((uint32_t)0x00000009U) /*!< 12 bytes data field */
+#define FDCAN_DLC_BYTES_16 ((uint32_t)0x0000000AU) /*!< 16 bytes data field */
+#define FDCAN_DLC_BYTES_20 ((uint32_t)0x0000000BU) /*!< 20 bytes data field */
+#define FDCAN_DLC_BYTES_24 ((uint32_t)0x0000000CU) /*!< 24 bytes data field */
+#define FDCAN_DLC_BYTES_32 ((uint32_t)0x0000000DU) /*!< 32 bytes data field */
+#define FDCAN_DLC_BYTES_48 ((uint32_t)0x0000000EU) /*!< 48 bytes data field */
+#define FDCAN_DLC_BYTES_64 ((uint32_t)0x0000000FU) /*!< 64 bytes data field */
 /**
   * @}
   */
@@ -1221,7 +1221,7 @@ typedef  void (*pFDCAN_TT_GlobalTimeCallbackTypeDef)(FDCAN_HandleTypeDef *hfdcan
   * @{
   */
 #define FDCAN_RX_FIFO_BLOCKING  ((uint32_t)0x00000000U) /*!< Rx FIFO blocking mode  */
-#define FDCAN_RX_FIFO_OVERWRITE ((uint32_t)0x80000000U) /*!< Rx FIFO overwrite mode */
+#define FDCAN_RX_FIFO_OVERWRITE ((uint32_t)0x00000001U) /*!< Rx FIFO overwrite mode */
 /**
   * @}
   */
@@ -1666,9 +1666,9 @@ typedef  void (*pFDCAN_TT_GlobalTimeCallbackTypeDef)(FDCAN_HandleTypeDef *hfdcan
 /** @defgroup FDCAN_Error_Status_Interrupts FDCAN Error Status Interrupts
   * @{
   */
-#define FDCAN_IT_ERROR_PASSIVE FDCAN_IE_EPE /*!< Error_Passive status changed */
-#define FDCAN_IT_ERROR_WARNING FDCAN_IE_EWE /*!< Error_Warning status changed */
-#define FDCAN_IT_BUS_OFF       FDCAN_IE_BOE /*!< Bus_Off status changed       */
+#define FDCAN_IT_ERROR_PASSIVE           FDCAN_IE_EPE   /*!< Error_Passive status changed      */
+#define FDCAN_IT_ERROR_WARNING           FDCAN_IE_EWE   /*!< Error_Warning status changed      */
+#define FDCAN_IT_BUS_OFF                 FDCAN_IE_BOE   /*!< Bus_Off status changed            */
 /**
   * @}
   */
@@ -2234,8 +2234,8 @@ HAL_FDCAN_StateTypeDef HAL_FDCAN_GetState(const FDCAN_HandleTypeDef *hfdcan);
 #define IS_FDCAN_DATA_SJW(SJW) (((SJW) >= 1U) && ((SJW) <= 16U))
 #define IS_FDCAN_DATA_TSEG1(TSEG1) (((TSEG1) >= 1U) && ((TSEG1) <= 32U))
 #define IS_FDCAN_DATA_TSEG2(TSEG2) (((TSEG2) >= 1U) && ((TSEG2) <= 16U))
-#define IS_FDCAN_MAX_VALUE(VALUE, MAX) ((VALUE) <= (MAX))
-#define IS_FDCAN_MIN_VALUE(VALUE, MIN) ((VALUE) >= (MIN))
+#define IS_FDCAN_MAX_VALUE(VALUE, _MAX_) ((VALUE) <= (_MAX_))
+#define IS_FDCAN_MIN_VALUE(VALUE, _MIN_) ((VALUE) >= (_MIN_))
 #define IS_FDCAN_DATA_SIZE(SIZE) (((SIZE) == FDCAN_DATA_BYTES_8 ) || \
                                   ((SIZE) == FDCAN_DATA_BYTES_12) || \
                                   ((SIZE) == FDCAN_DATA_BYTES_16) || \

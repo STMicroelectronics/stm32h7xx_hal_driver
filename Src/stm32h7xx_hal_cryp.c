@@ -331,7 +331,7 @@
 /* Private struct -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
-/** @addtogroup CRYP_Private_Functions_prototypes
+/** @addtogroup CRYP_Private_Functions_Prototypes
   * @{
   */
 
@@ -782,7 +782,7 @@ HAL_StatusTypeDef HAL_CRYP_RegisterCallback(CRYP_HandleTypeDef *hcryp, HAL_CRYP_
 
 /**
   * @brief  Unregister an CRYP Callback
-  *         CRYP callabck is redirected to the weak predefined callback
+  *         CRYP callback is redirected to the weak predefined callback
   * @param hcryp cryp handle
   * @param CallbackID ID of the callback to be unregistered
   *        This parameter can be one of the following values:
@@ -1804,6 +1804,9 @@ __weak void HAL_CRYP_ErrorCallback(CRYP_HandleTypeDef *hcryp)
             the HAL_CRYP_ErrorCallback could be implemented in the user file
    */
 }
+/**
+  * @}
+  */
 /**
   * @}
   */
@@ -5236,10 +5239,6 @@ static HAL_StatusTypeDef CRYP_WaitOnOFNEFlag(const CRYP_HandleTypeDef  *hcryp, u
   */
 
 
-
-/**
-  * @}
-  */
 
 /**
   * @}

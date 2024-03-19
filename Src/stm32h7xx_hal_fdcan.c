@@ -10,7 +10,6 @@
   *           + IO operation functions
   *           + Peripheral Configuration and Control functions
   *           + Peripheral State and Error functions
-  *
   ******************************************************************************
   * @attention
   *
@@ -82,7 +81,6 @@
 
       *** Polling mode operation ***
       ==============================
-
     [..]
         (#) Reception and transmission states can be monitored via the following
             functions:
@@ -124,7 +122,7 @@
 
   For specific callbacks ClockCalibrationCallback, TxEventFifoCallback, RxFifo0Callback, RxFifo1Callback,
   TxBufferCompleteCallback, TxBufferAbortCallback, ErrorStatusCallback, TT_ScheduleSyncCallback, TT_TimeMarkCallback,
-  TT_StopWatchCallback and TT_GlobalTimeCallback, use dedicated register callbacks :
+  TT_StopWatchCallback and TT_GlobalTimeCallback, use dedicated register callbacks:
   respectively HAL_FDCAN_RegisterClockCalibrationCallback(), HAL_FDCAN_RegisterTxEventFifoCallback(),
   HAL_FDCAN_RegisterRxFifo0Callback(), HAL_FDCAN_RegisterRxFifo1Callback(),
   HAL_FDCAN_RegisterTxBufferCompleCallback(), HAL_FDCAN_RegisterTxBufferAbortCallback(),
@@ -149,7 +147,7 @@
   For specific callbacks ClockCalibrationCallback, TxEventFifoCallback, RxFifo0Callback,
   RxFifo1Callback, TxBufferCompleteCallback, TxBufferAbortCallback, TT_ScheduleSyncCallback,
   TT_TimeMarkCallback, TT_StopWatchCallback and TT_GlobalTimeCallback, use dedicated
-  register callbacks : respectively HAL_FDCAN_UnRegisterClockCalibrationCallback(),
+  register callbacks: respectively HAL_FDCAN_UnRegisterClockCalibrationCallback(),
   HAL_FDCAN_UnRegisterTxEventFifoCallback(), HAL_FDCAN_UnRegisterRxFifo0Callback(),
   HAL_FDCAN_UnRegisterRxFifo1Callback(), HAL_FDCAN_UnRegisterTxBufferCompleCallback(),
   HAL_FDCAN_UnRegisterTxBufferAbortCallback(), HAL_FDCAN_UnRegisterErrorStatusCallback(),
@@ -241,14 +239,20 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
+/** @addtogroup FDCAN_Private_Variables
+  * @{
+  */
 static const uint8_t DLCtoBytes[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 12, 16, 20, 24, 32, 48, 64};
+/**
+  * @}
+  */
 
 /* Private function prototypes -----------------------------------------------*/
 /** @addtogroup FDCAN_Private_Functions_Prototypes
   * @{
   */
 static HAL_StatusTypeDef FDCAN_CalcultateRamBlockAddresses(FDCAN_HandleTypeDef *hfdcan);
-static void FDCAN_CopyMessageToRAM(FDCAN_HandleTypeDef *hfdcan, const FDCAN_TxHeaderTypeDef *pTxHeader,
+static void FDCAN_CopyMessageToRAM(const FDCAN_HandleTypeDef *hfdcan, const FDCAN_TxHeaderTypeDef *pTxHeader,
                                    const uint8_t *pTxData, uint32_t BufferIndex);
 /**
   * @}
@@ -524,9 +528,9 @@ HAL_StatusTypeDef HAL_FDCAN_Init(FDCAN_HandleTypeDef *hfdcan)
   /* If FD operation with BRS is selected, set the data bit timing register */
   if (hfdcan->Init.FrameFormat == FDCAN_FRAME_FD_BRS)
   {
-    hfdcan->Instance->DBTP = ((((uint32_t)hfdcan->Init.DataSyncJumpWidth - 1U) << FDCAN_DBTP_DSJW_Pos) | \
-                              (((uint32_t)hfdcan->Init.DataTimeSeg1 - 1U) << FDCAN_DBTP_DTSEG1_Pos)    | \
-                              (((uint32_t)hfdcan->Init.DataTimeSeg2 - 1U) << FDCAN_DBTP_DTSEG2_Pos)    | \
+    hfdcan->Instance->DBTP = ((((uint32_t)hfdcan->Init.DataSyncJumpWidth - 1U) << FDCAN_DBTP_DSJW_Pos)  | \
+                              (((uint32_t)hfdcan->Init.DataTimeSeg1 - 1U) << FDCAN_DBTP_DTSEG1_Pos)     | \
+                              (((uint32_t)hfdcan->Init.DataTimeSeg2 - 1U) << FDCAN_DBTP_DTSEG2_Pos)     | \
                               (((uint32_t)hfdcan->Init.DataPrescaler - 1U) << FDCAN_DBTP_DBRP_Pos));
   }
 
@@ -643,7 +647,7 @@ __weak void HAL_FDCAN_MspInit(FDCAN_HandleTypeDef *hfdcan)
 {
   /* Prevent unused argument(s) compilation warning */
   UNUSED(hfdcan);
-  /* NOTE : This function Should not be modified, when the callback is needed,
+  /* NOTE: This function Should not be modified, when the callback is needed,
             the HAL_FDCAN_MspInit could be implemented in the user file
    */
 }
@@ -658,7 +662,7 @@ __weak void HAL_FDCAN_MspDeInit(FDCAN_HandleTypeDef *hfdcan)
 {
   /* Prevent unused argument(s) compilation warning */
   UNUSED(hfdcan);
-  /* NOTE : This function Should not be modified, when the callback is needed,
+  /* NOTE: This function Should not be modified, when the callback is needed,
             the HAL_FDCAN_MspDeInit could be implemented in the user file
    */
 }
@@ -1227,8 +1231,8 @@ HAL_StatusTypeDef HAL_FDCAN_RegisterTxBufferCompleteCallback(FDCAN_HandleTypeDef
 
 /**
   * @brief  UnRegister the Tx Buffer Complete FDCAN Callback
-  *         Tx Buffer Complete FDCAN Callback is redirected to the weak
-  *         HAL_FDCAN_TxBufferCompleteCallback() predefined callback
+  *         Tx Buffer Complete FDCAN Callback is redirected to
+  *         the weak HAL_FDCAN_TxBufferCompleteCallback() predefined callback
   * @param  hfdcan FDCAN handle
   * @retval HAL status
   */
@@ -1289,8 +1293,8 @@ HAL_StatusTypeDef HAL_FDCAN_RegisterTxBufferAbortCallback(FDCAN_HandleTypeDef *h
 
 /**
   * @brief  UnRegister the Tx Buffer Abort FDCAN Callback
-  *         Tx Buffer Abort FDCAN Callback is redirected to the weak
-  *         HAL_FDCAN_TxBufferAbortCallback() predefined callback
+  *         Tx Buffer Abort FDCAN Callback is redirected to
+  *         the weak HAL_FDCAN_TxBufferAbortCallback() predefined callback
   * @param  hfdcan FDCAN handle
   * @retval HAL status
   */
@@ -1710,7 +1714,8 @@ HAL_StatusTypeDef HAL_FDCAN_ConfigClockCalibration(FDCAN_HandleTypeDef *hfdcan,
       SET_BIT(FDCAN_CCU->CCFG, FDCANCCU_CCFG_BCC);
 
       /* Configure clock divider */
-      MODIFY_REG(FDCAN_CCU->CCFG, FDCANCCU_CCFG_CDIV, sCcuConfig->ClockDivider);
+      MODIFY_REG(FDCAN_CCU->CCFG, FDCANCCU_CCFG_CDIV,
+                 (sCcuConfig->ClockDivider << FDCANCCU_CCFG_CDIV_Pos));
     }
     else /* sCcuConfig->ClockCalibration == ENABLE */
     {
@@ -1975,7 +1980,7 @@ HAL_StatusTypeDef HAL_FDCAN_ConfigGlobalFilter(FDCAN_HandleTypeDef *hfdcan,
   * @param  hfdcan pointer to an FDCAN_HandleTypeDef structure that contains
   *         the configuration information for the specified FDCAN.
   * @param  Mask Extended ID Mask.
-  *         This parameter must be a number between 0 and 0x1FFFFFFF
+  *         This parameter must be a number between 0 and 0x1FFFFFFF.
   * @retval HAL status
   */
 HAL_StatusTypeDef HAL_FDCAN_ConfigExtendedIdMask(FDCAN_HandleTypeDef *hfdcan, uint32_t Mask)
@@ -2023,12 +2028,12 @@ HAL_StatusTypeDef HAL_FDCAN_ConfigRxFifoOverwrite(FDCAN_HandleTypeDef *hfdcan, u
     if (RxFifo == FDCAN_RX_FIFO0)
     {
       /* Select FIFO 0 Operation Mode */
-      MODIFY_REG(hfdcan->Instance->RXF0C, FDCAN_RXF0C_F0OM, OperationMode);
+      MODIFY_REG(hfdcan->Instance->RXF0C, FDCAN_RXF0C_F0OM, (OperationMode << FDCAN_RXF0C_F0OM_Pos));
     }
     else /* RxFifo == FDCAN_RX_FIFO1 */
     {
       /* Select FIFO 1 Operation Mode */
-      MODIFY_REG(hfdcan->Instance->RXF1C, FDCAN_RXF1C_F1OM, OperationMode);
+      MODIFY_REG(hfdcan->Instance->RXF1C, FDCAN_RXF1C_F1OM, (OperationMode << FDCAN_RXF1C_F1OM_Pos));
     }
 
     /* Return function status */
@@ -2216,7 +2221,7 @@ HAL_StatusTypeDef HAL_FDCAN_DisableTimestampCounter(FDCAN_HandleTypeDef *hfdcan)
   * @brief  Get the timestamp counter value.
   * @param  hfdcan pointer to an FDCAN_HandleTypeDef structure that contains
   *         the configuration information for the specified FDCAN.
-  * @retval Value Timestamp counter value
+  * @retval Timestamp counter value
   */
 uint16_t HAL_FDCAN_GetTimestampCounter(const FDCAN_HandleTypeDef *hfdcan)
 {
@@ -2270,8 +2275,8 @@ HAL_StatusTypeDef HAL_FDCAN_ConfigTimeoutCounter(FDCAN_HandleTypeDef *hfdcan, ui
   if (hfdcan->State == HAL_FDCAN_STATE_READY)
   {
     /* Select timeout operation and configure period */
-    MODIFY_REG(hfdcan->Instance->TOCC, (FDCAN_TOCC_TOS | FDCAN_TOCC_TOP),
-               (TimeoutOperation | (TimeoutPeriod << FDCAN_TOCC_TOP_Pos)));
+    MODIFY_REG(hfdcan->Instance->TOCC,
+               (FDCAN_TOCC_TOS | FDCAN_TOCC_TOP), (TimeoutOperation | (TimeoutPeriod << FDCAN_TOCC_TOP_Pos)));
 
     /* Return function status */
     return HAL_OK;
@@ -2339,7 +2344,7 @@ HAL_StatusTypeDef HAL_FDCAN_DisableTimeoutCounter(FDCAN_HandleTypeDef *hfdcan)
   * @brief  Get the timeout counter value.
   * @param  hfdcan pointer to an FDCAN_HandleTypeDef structure that contains
   *         the configuration information for the specified FDCAN.
-  * @retval Value Timeout counter value
+  * @retval Timeout counter value
   */
 uint16_t HAL_FDCAN_GetTimeoutCounter(const FDCAN_HandleTypeDef *hfdcan)
 {
@@ -2574,21 +2579,22 @@ HAL_StatusTypeDef HAL_FDCAN_DisableEdgeFiltering(FDCAN_HandleTypeDef *hfdcan)
     [..]  This section provides functions allowing to:
       (+) HAL_FDCAN_Start                         : Start the FDCAN module
       (+) HAL_FDCAN_Stop                          : Stop the FDCAN module and enable access to configuration registers
-      (+) HAL_FDCAN_AddMessageToTxFifoQ           : Add a message to the Tx FIFO/Queue and activate the
-                                                    corresponding transmission request
+      (+) HAL_FDCAN_AddMessageToTxFifoQ           : Add a message to the Tx FIFO/Queue and activate the corresponding
+                                                    transmission request
       (+) HAL_FDCAN_AddMessageToTxBuffer          : Add a message to a dedicated Tx buffer
       (+) HAL_FDCAN_EnableTxBufferRequest         : Enable transmission request
       (+) HAL_FDCAN_GetLatestTxFifoQRequestBuffer : Get Tx buffer index of latest Tx FIFO/Queue request
       (+) HAL_FDCAN_AbortTxRequest                : Abort transmission request
       (+) HAL_FDCAN_GetRxMessage                  : Get an FDCAN frame from the Rx Buffer/FIFO zone into the
                                                     message RAM
-      (+) HAL_FDCAN_GetTxEvent                    : Get an FDCAN Tx event from the Tx Event FIFO zone into the
-                                                    message RAM
+      (+) HAL_FDCAN_GetTxEvent                    : Get an FDCAN Tx event from the Tx Event FIFO zone
+                                                    into the message RAM
       (+) HAL_FDCAN_GetHighPriorityMessageStatus  : Get high priority message status
       (+) HAL_FDCAN_GetProtocolStatus             : Get protocol status
       (+) HAL_FDCAN_GetErrorCounters              : Get error counter values
       (+) HAL_FDCAN_IsRxBufferMessageAvailable    : Check if a new message is received in the selected Rx buffer
-      (+) HAL_FDCAN_IsTxBufferMessagePending      : Check if a transmission request is pending on the selected Tx buffer
+      (+) HAL_FDCAN_IsTxBufferMessagePending      : Check if a transmission request is pending
+                                                    on the selected Tx buffer
       (+) HAL_FDCAN_GetRxFifoFillLevel            : Return Rx FIFO fill level
       (+) HAL_FDCAN_GetTxFifoFreeLevel            : Return Tx FIFO free level
       (+) HAL_FDCAN_IsRestrictedOperationMode     : Check if the FDCAN peripheral entered Restricted Operation Mode
@@ -2995,7 +3001,7 @@ HAL_StatusTypeDef HAL_FDCAN_GetRxMessage(FDCAN_HandleTypeDef *hfdcan, uint32_t R
         return HAL_ERROR;
       }
 
-      /* Check that the Rx FIFO 0 is not empty */
+      /* Check that the Rx FIFO 1 is not empty */
       if ((hfdcan->Instance->RXF1S & FDCAN_RXF1S_F1FL) == 0U)
       {
         /* Update error code */
@@ -3045,7 +3051,7 @@ HAL_StatusTypeDef HAL_FDCAN_GetRxMessage(FDCAN_HandleTypeDef *hfdcan, uint32_t R
     /* Retrieve Identifier */
     if (pRxHeader->IdType == FDCAN_STANDARD_ID) /* Standard ID element */
     {
-      pRxHeader->Identifier = ((*RxAddress & FDCAN_ELEMENT_MASK_STDID) >> 18);
+      pRxHeader->Identifier = ((*RxAddress & FDCAN_ELEMENT_MASK_STDID) >> 18U);
     }
     else /* Extended ID element */
     {
@@ -3065,7 +3071,7 @@ HAL_StatusTypeDef HAL_FDCAN_GetRxMessage(FDCAN_HandleTypeDef *hfdcan, uint32_t R
     pRxHeader->RxTimestamp = (*RxAddress & FDCAN_ELEMENT_MASK_TS);
 
     /* Retrieve DataLength */
-    pRxHeader->DataLength = (*RxAddress & FDCAN_ELEMENT_MASK_DLC);
+    pRxHeader->DataLength = ((*RxAddress & FDCAN_ELEMENT_MASK_DLC) >> 16U);
 
     /* Retrieve BitRateSwitch */
     pRxHeader->BitRateSwitch = (*RxAddress & FDCAN_ELEMENT_MASK_BRS);
@@ -3074,17 +3080,17 @@ HAL_StatusTypeDef HAL_FDCAN_GetRxMessage(FDCAN_HandleTypeDef *hfdcan, uint32_t R
     pRxHeader->FDFormat = (*RxAddress & FDCAN_ELEMENT_MASK_FDF);
 
     /* Retrieve FilterIndex */
-    pRxHeader->FilterIndex = ((*RxAddress & FDCAN_ELEMENT_MASK_FIDX) >> 24);
+    pRxHeader->FilterIndex = ((*RxAddress & FDCAN_ELEMENT_MASK_FIDX) >> 24U);
 
     /* Retrieve NonMatchingFrame */
-    pRxHeader->IsFilterMatchingFrame = ((*RxAddress & FDCAN_ELEMENT_MASK_ANMF) >> 31);
+    pRxHeader->IsFilterMatchingFrame = ((*RxAddress & FDCAN_ELEMENT_MASK_ANMF) >> 31U);
 
     /* Increment RxAddress pointer to payload of Rx FIFO element */
     RxAddress++;
 
     /* Retrieve Rx payload */
     pData = (uint8_t *)RxAddress;
-    for (ByteCounter = 0; ByteCounter < DLCtoBytes[pRxHeader->DataLength >> 16]; ByteCounter++)
+    for (ByteCounter = 0; ByteCounter < DLCtoBytes[pRxHeader->DataLength]; ByteCounter++)
     {
       pRxData[ByteCounter] = pData[ByteCounter];
     }
@@ -3104,11 +3110,11 @@ HAL_StatusTypeDef HAL_FDCAN_GetRxMessage(FDCAN_HandleTypeDef *hfdcan, uint32_t R
       /* Clear the New Data flag of the current Rx buffer */
       if (RxLocation < FDCAN_RX_BUFFER32)
       {
-        hfdcan->Instance->NDAT1 = ((uint32_t)1 << RxLocation);
+        hfdcan->Instance->NDAT1 = ((uint32_t)1U << RxLocation);
       }
       else /* FDCAN_RX_BUFFER32 <= RxLocation <= FDCAN_RX_BUFFER63 */
       {
-        hfdcan->Instance->NDAT2 = ((uint32_t)1 << (RxLocation & 0x1FU));
+        hfdcan->Instance->NDAT2 = ((uint32_t)1U << (RxLocation & 0x1FU));
       }
     }
 
@@ -3190,7 +3196,7 @@ HAL_StatusTypeDef HAL_FDCAN_GetTxEvent(FDCAN_HandleTypeDef *hfdcan, FDCAN_TxEven
     pTxEvent->TxTimestamp = (*TxEventAddress & FDCAN_ELEMENT_MASK_TS);
 
     /* Retrieve DataLength */
-    pTxEvent->DataLength = (*TxEventAddress & FDCAN_ELEMENT_MASK_DLC);
+    pTxEvent->DataLength = ((*TxEventAddress & FDCAN_ELEMENT_MASK_DLC) >> 16U);
 
     /* Retrieve BitRateSwitch */
     pTxEvent->BitRateSwitch = (*TxEventAddress & FDCAN_ELEMENT_MASK_BRS);
@@ -3202,7 +3208,7 @@ HAL_StatusTypeDef HAL_FDCAN_GetTxEvent(FDCAN_HandleTypeDef *hfdcan, FDCAN_TxEven
     pTxEvent->EventType = (*TxEventAddress & FDCAN_ELEMENT_MASK_ET);
 
     /* Retrieve MessageMarker */
-    pTxEvent->MessageMarker = ((*TxEventAddress & FDCAN_ELEMENT_MASK_MM) >> 24);
+    pTxEvent->MessageMarker = ((*TxEventAddress & FDCAN_ELEMENT_MASK_MM) >> 24U);
 
     /* Acknowledge the Tx Event FIFO that the oldest element is read so that it increments the GetIndex */
     hfdcan->Instance->TXEFA = GetIndex;
@@ -3360,7 +3366,7 @@ uint32_t HAL_FDCAN_IsTxBufferMessagePending(const FDCAN_HandleTypeDef *hfdcan, u
   *         This parameter can be one of the following values:
   *           @arg FDCAN_RX_FIFO0: Rx FIFO 0
   *           @arg FDCAN_RX_FIFO1: Rx FIFO 1
-  * @retval Level Rx FIFO fill level.
+  * @retval Rx FIFO fill level.
   */
 uint32_t HAL_FDCAN_GetRxFifoFillLevel(const FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo)
 {
@@ -3387,7 +3393,7 @@ uint32_t HAL_FDCAN_GetRxFifoFillLevel(const FDCAN_HandleTypeDef *hfdcan, uint32_
   *         elements starting from Tx FIFO GetIndex.
   * @param  hfdcan pointer to an FDCAN_HandleTypeDef structure that contains
   *         the configuration information for the specified FDCAN.
-  * @retval Level Tx FIFO free level.
+  * @retval Tx FIFO free level.
   */
 uint32_t HAL_FDCAN_GetTxFifoFreeLevel(const FDCAN_HandleTypeDef *hfdcan)
 {
@@ -5268,7 +5274,7 @@ HAL_StatusTypeDef HAL_FDCAN_TT_DeactivateNotification(FDCAN_HandleTypeDef *hfdca
 
     if ((hfdcan->ttcan->TTIE & ITLineSelection) == 0U)
     {
-      /* Disable Interrupt line 1 */
+      /* Disable interrupt line 1 */
       CLEAR_BIT(hfdcan->Instance->ILE, FDCAN_INTERRUPT_LINE1);
     }
 
@@ -5726,7 +5732,7 @@ __weak void HAL_FDCAN_ClockCalibrationCallback(FDCAN_HandleTypeDef *hfdcan, uint
   UNUSED(hfdcan);
   UNUSED(ClkCalibrationITs);
 
-  /* NOTE : This function Should not be modified, when the callback is needed,
+  /* NOTE: This function Should not be modified, when the callback is needed,
             the HAL_FDCAN_ClockCalibrationCallback could be implemented in the user file
    */
 }
@@ -5745,7 +5751,7 @@ __weak void HAL_FDCAN_TxEventFifoCallback(FDCAN_HandleTypeDef *hfdcan, uint32_t 
   UNUSED(hfdcan);
   UNUSED(TxEventFifoITs);
 
-  /* NOTE : This function Should not be modified, when the callback is needed,
+  /* NOTE: This function Should not be modified, when the callback is needed,
             the HAL_FDCAN_TxEventFifoCallback could be implemented in the user file
    */
 }
@@ -5764,7 +5770,7 @@ __weak void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFi
   UNUSED(hfdcan);
   UNUSED(RxFifo0ITs);
 
-  /* NOTE : This function Should not be modified, when the callback is needed,
+  /* NOTE: This function Should not be modified, when the callback is needed,
             the HAL_FDCAN_RxFifo0Callback could be implemented in the user file
    */
 }
@@ -5783,7 +5789,7 @@ __weak void HAL_FDCAN_RxFifo1Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFi
   UNUSED(hfdcan);
   UNUSED(RxFifo1ITs);
 
-  /* NOTE : This function Should not be modified, when the callback is needed,
+  /* NOTE: This function Should not be modified, when the callback is needed,
             the HAL_FDCAN_RxFifo1Callback could be implemented in the user file
    */
 }
@@ -5799,7 +5805,7 @@ __weak void HAL_FDCAN_TxFifoEmptyCallback(FDCAN_HandleTypeDef *hfdcan)
   /* Prevent unused argument(s) compilation warning */
   UNUSED(hfdcan);
 
-  /* NOTE : This function Should not be modified, when the callback is needed,
+  /* NOTE: This function Should not be modified, when the callback is needed,
             the HAL_FDCAN_TxFifoEmptyCallback could be implemented in the user file
    */
 }
@@ -5818,7 +5824,7 @@ __weak void HAL_FDCAN_TxBufferCompleteCallback(FDCAN_HandleTypeDef *hfdcan, uint
   UNUSED(hfdcan);
   UNUSED(BufferIndexes);
 
-  /* NOTE : This function Should not be modified, when the callback is needed,
+  /* NOTE: This function Should not be modified, when the callback is needed,
             the HAL_FDCAN_TxBufferCompleteCallback could be implemented in the user file
    */
 }
@@ -5837,7 +5843,7 @@ __weak void HAL_FDCAN_TxBufferAbortCallback(FDCAN_HandleTypeDef *hfdcan, uint32_
   UNUSED(hfdcan);
   UNUSED(BufferIndexes);
 
-  /* NOTE : This function Should not be modified, when the callback is needed,
+  /* NOTE: This function Should not be modified, when the callback is needed,
             the HAL_FDCAN_TxBufferAbortCallback could be implemented in the user file
    */
 }
@@ -5853,7 +5859,7 @@ __weak void HAL_FDCAN_RxBufferNewMessageCallback(FDCAN_HandleTypeDef *hfdcan)
   /* Prevent unused argument(s) compilation warning */
   UNUSED(hfdcan);
 
-  /* NOTE : This function Should not be modified, when the callback is needed,
+  /* NOTE: This function Should not be modified, when the callback is needed,
             the HAL_FDCAN_RxBufferNewMessageCallback could be implemented in the user file
    */
 }
@@ -5869,7 +5875,7 @@ __weak void HAL_FDCAN_TimestampWraparoundCallback(FDCAN_HandleTypeDef *hfdcan)
   /* Prevent unused argument(s) compilation warning */
   UNUSED(hfdcan);
 
-  /* NOTE : This function Should not be modified, when the callback is needed,
+  /* NOTE: This function Should not be modified, when the callback is needed,
             the HAL_FDCAN_TimestampWraparoundCallback could be implemented in the user file
    */
 }
@@ -5885,7 +5891,7 @@ __weak void HAL_FDCAN_TimeoutOccurredCallback(FDCAN_HandleTypeDef *hfdcan)
   /* Prevent unused argument(s) compilation warning */
   UNUSED(hfdcan);
 
-  /* NOTE : This function Should not be modified, when the callback is needed,
+  /* NOTE: This function Should not be modified, when the callback is needed,
             the HAL_FDCAN_TimeoutOccurredCallback could be implemented in the user file
    */
 }
@@ -5901,7 +5907,7 @@ __weak void HAL_FDCAN_HighPriorityMessageCallback(FDCAN_HandleTypeDef *hfdcan)
   /* Prevent unused argument(s) compilation warning */
   UNUSED(hfdcan);
 
-  /* NOTE : This function Should not be modified, when the callback is needed,
+  /* NOTE: This function Should not be modified, when the callback is needed,
             the HAL_FDCAN_HighPriorityMessageCallback could be implemented in the user file
    */
 }
@@ -5917,7 +5923,7 @@ __weak void HAL_FDCAN_ErrorCallback(FDCAN_HandleTypeDef *hfdcan)
   /* Prevent unused argument(s) compilation warning */
   UNUSED(hfdcan);
 
-  /* NOTE : This function Should not be modified, when the callback is needed,
+  /* NOTE: This function Should not be modified, when the callback is needed,
             the HAL_FDCAN_ErrorCallback could be implemented in the user file
    */
 }
@@ -5936,7 +5942,7 @@ __weak void HAL_FDCAN_ErrorStatusCallback(FDCAN_HandleTypeDef *hfdcan, uint32_t 
   UNUSED(hfdcan);
   UNUSED(ErrorStatusITs);
 
-  /* NOTE : This function Should not be modified, when the callback is needed,
+  /* NOTE: This function Should not be modified, when the callback is needed,
             the HAL_FDCAN_ErrorStatusCallback could be implemented in the user file
    */
 }
@@ -5955,7 +5961,7 @@ __weak void HAL_FDCAN_TT_ScheduleSyncCallback(FDCAN_HandleTypeDef *hfdcan, uint3
   UNUSED(hfdcan);
   UNUSED(TTSchedSyncITs);
 
-  /* NOTE : This function Should not be modified, when the callback is needed,
+  /* NOTE: This function Should not be modified, when the callback is needed,
             the HAL_FDCAN_TT_ScheduleSyncCallback could be implemented in the user file
    */
 }
@@ -5974,7 +5980,7 @@ __weak void HAL_FDCAN_TT_TimeMarkCallback(FDCAN_HandleTypeDef *hfdcan, uint32_t 
   UNUSED(hfdcan);
   UNUSED(TTTimeMarkITs);
 
-  /* NOTE : This function Should not be modified, when the callback is needed,
+  /* NOTE: This function Should not be modified, when the callback is needed,
             the HAL_FDCAN_TT_TimeMarkCallback could be implemented in the user file
    */
 }
@@ -5997,7 +6003,7 @@ __weak void HAL_FDCAN_TT_StopWatchCallback(FDCAN_HandleTypeDef *hfdcan, uint32_t
   UNUSED(SWTime);
   UNUSED(SWCycleCount);
 
-  /* NOTE : This function Should not be modified, when the callback is needed,
+  /* NOTE: This function Should not be modified, when the callback is needed,
             the HAL_FDCAN_TT_StopWatchCallback could be implemented in the user file
    */
 }
@@ -6016,7 +6022,7 @@ __weak void HAL_FDCAN_TT_GlobalTimeCallback(FDCAN_HandleTypeDef *hfdcan, uint32_
   UNUSED(hfdcan);
   UNUSED(TTGlobTimeITs);
 
-  /* NOTE : This function Should not be modified, when the callback is needed,
+  /* NOTE: This function Should not be modified, when the callback is needed,
             the HAL_FDCAN_TT_GlobalTimeCallback could be implemented in the user file
    */
 }
@@ -6072,7 +6078,7 @@ uint32_t HAL_FDCAN_GetError(const FDCAN_HandleTypeDef *hfdcan)
   * @}
   */
 
-/** @addtogroup FDCAN_Private_Functions
+/** @defgroup FDCAN_Private_Functions FDCAN Private Functions
   * @{
   */
 
@@ -6183,9 +6189,9 @@ static HAL_StatusTypeDef FDCAN_CalcultateRamBlockAddresses(FDCAN_HandleTypeDef *
   * @param  pTxHeader pointer to a FDCAN_TxHeaderTypeDef structure.
   * @param  pTxData pointer to a buffer containing the payload of the Tx frame.
   * @param  BufferIndex index of the buffer to be configured.
-  * @retval HAL status
+  * @retval none
  */
-static void FDCAN_CopyMessageToRAM(FDCAN_HandleTypeDef *hfdcan, const FDCAN_TxHeaderTypeDef *pTxHeader,
+static void FDCAN_CopyMessageToRAM(const FDCAN_HandleTypeDef *hfdcan, const FDCAN_TxHeaderTypeDef *pTxHeader,
                                    const uint8_t *pTxData, uint32_t BufferIndex)
 {
   uint32_t TxElementW1;
@@ -6199,7 +6205,7 @@ static void FDCAN_CopyMessageToRAM(FDCAN_HandleTypeDef *hfdcan, const FDCAN_TxHe
     TxElementW1 = (pTxHeader->ErrorStateIndicator |
                    FDCAN_STANDARD_ID |
                    pTxHeader->TxFrameType |
-                   (pTxHeader->Identifier << 18));
+                   (pTxHeader->Identifier << 18U));
   }
   else /* pTxHeader->IdType == FDCAN_EXTENDED_ID */
   {
@@ -6210,11 +6216,11 @@ static void FDCAN_CopyMessageToRAM(FDCAN_HandleTypeDef *hfdcan, const FDCAN_TxHe
   }
 
   /* Build second word of Tx header element */
-  TxElementW2 = ((pTxHeader->MessageMarker << 24) |
+  TxElementW2 = ((pTxHeader->MessageMarker << 24U) |
                  pTxHeader->TxEventFifoControl |
                  pTxHeader->FDFormat |
                  pTxHeader->BitRateSwitch |
-                 pTxHeader->DataLength);
+                 (pTxHeader->DataLength << 16U));
 
   /* Calculate Tx element address */
   TxAddress = (uint32_t *)(hfdcan->msgRam.TxBufferSA + (BufferIndex * hfdcan->Init.TxElmtSize * 4U));
@@ -6226,11 +6232,11 @@ static void FDCAN_CopyMessageToRAM(FDCAN_HandleTypeDef *hfdcan, const FDCAN_TxHe
   TxAddress++;
 
   /* Write Tx payload to the message RAM */
-  for (ByteCounter = 0; ByteCounter < DLCtoBytes[pTxHeader->DataLength >> 16]; ByteCounter += 4U)
+  for (ByteCounter = 0; ByteCounter < DLCtoBytes[pTxHeader->DataLength]; ByteCounter += 4U)
   {
-    *TxAddress = (((uint32_t)pTxData[ByteCounter + 3U] << 24) |
-                  ((uint32_t)pTxData[ByteCounter + 2U] << 16) |
-                  ((uint32_t)pTxData[ByteCounter + 1U] << 8) |
+    *TxAddress = (((uint32_t)pTxData[ByteCounter + 3U] << 24U) |
+                  ((uint32_t)pTxData[ByteCounter + 2U] << 16U) |
+                  ((uint32_t)pTxData[ByteCounter + 1U] << 8U)  |
                   (uint32_t)pTxData[ByteCounter]);
     TxAddress++;
   }
@@ -6249,4 +6255,3 @@ static void FDCAN_CopyMessageToRAM(FDCAN_HandleTypeDef *hfdcan, const FDCAN_TxHe
   */
 
 #endif /* FDCAN1 */
-
