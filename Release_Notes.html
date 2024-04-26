@@ -351,6 +351,20 @@
 <ul>
 <li>Change argument order in SPI_WaitOnFlagUntilTimeout to be aligned with declaration.</li>
 <li>Fix dereferencing pointer warning on GNU compiler inside LL_SPI_ReceiveData16() function.</li>
+<li>Add SuspendCallback(), useful to avoid data overrun in case transfer is interrupted.
+<ul>
+<li><strong>NOTE:</strong> SuspendCallback() is called only when <em>MasterReceiverAutoSusp</em> is enabled and <em>EOT</em> interrupt is activated.</li>
+</ul></li>
+<li>Add support of Simplex Transmitter and Simplex Receiver modes.</li>
+<li>Remove the call to HAL_SPI_TransmitReceive() from HAL_SPI_Receive().
+<ul>
+<li><strong>NOTES:</strong>
+<ul>
+<li>When the HAL_SPI_Receive() is called in Master mode, only the RX Line is active.</li>
+<li>In case of a Master using the Full-Duplex mode, HAL_SPI_TransmitReceive() shall be called instead of HAL_SPI_Receive() at user application level.</li>
+</ul></li>
+</ul></li>
+<li>Clear <em>EOT</em> and <em>SUSP</em> flags in the HAL_SPI_Abort_IT().</li>
 </ul></li>
 <li><strong>HAL ETH</strong>
 <ul>
