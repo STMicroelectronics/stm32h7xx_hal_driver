@@ -1617,7 +1617,7 @@ __STATIC_INLINE void LL_DMA_DisableDoubleBufferMode(DMA_TypeDef *DMAx, uint32_t 
   */
 __STATIC_INLINE uint32_t LL_DMA_IsEnabledDoubleBufferMode(DMA_TypeDef *DMAx, uint32_t Stream)
 {
-  register uint32_t dma_base_addr = (uint32_t)DMAx;
+  uint32_t dma_base_addr = (uint32_t)DMAx;
 
   return ((READ_BIT(((DMA_Stream_TypeDef *)(dma_base_addr + LL_DMA_STR_OFFSET_TAB[Stream]))->CR, DMA_SxCR_DBM) == (DMA_SxCR_DBM)) ? 1UL : 0UL);
 }
