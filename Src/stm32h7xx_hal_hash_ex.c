@@ -86,8 +86,6 @@
 #include "stm32h7xx_hal.h"
 
 
-
-
 /** @addtogroup STM32H7xx_HAL_Driver
   * @{
   */
@@ -328,7 +326,8 @@ HAL_StatusTypeDef HAL_HASHEx_SHA224_Accmlt_IT(HASH_HandleTypeDef *hhash, const u
   * @param  pOutBuffer pointer to the computed digest. Digest size is 28 bytes.
   * @retval HAL status
   */
-HAL_StatusTypeDef HAL_HASHEx_SHA224_Accmlt_End_IT(HASH_HandleTypeDef *hhash, const uint8_t *const pInBuffer, uint32_t Size,
+HAL_StatusTypeDef HAL_HASHEx_SHA224_Accmlt_End_IT(HASH_HandleTypeDef *hhash, const uint8_t *const pInBuffer,
+                                                  uint32_t Size,
                                                   uint8_t *pOutBuffer)
 {
   return HASH_Start_IT(hhash, pInBuffer, Size, pOutBuffer, HASH_ALGOSELECTION_SHA224);
@@ -382,7 +381,8 @@ HAL_StatusTypeDef HAL_HASHEx_SHA256_Accmlt_IT(HASH_HandleTypeDef *hhash, const u
   * @param  pOutBuffer pointer to the computed digest. Digest size is 32 bytes.
   * @retval HAL status
   */
-HAL_StatusTypeDef HAL_HASHEx_SHA256_Accmlt_End_IT(HASH_HandleTypeDef *hhash, const uint8_t *const pInBuffer, uint32_t Size,
+HAL_StatusTypeDef HAL_HASHEx_SHA256_Accmlt_End_IT(HASH_HandleTypeDef *hhash, const uint8_t *const pInBuffer,
+                                                  uint32_t Size,
                                                   uint8_t *pOutBuffer)
 {
   return HASH_Start_IT(hhash, pInBuffer, Size, pOutBuffer, HASH_ALGOSELECTION_SHA256);
@@ -420,8 +420,6 @@ HAL_StatusTypeDef HAL_HASHEx_SHA256_Accmlt_End_IT(HASH_HandleTypeDef *hhash, con
 @endverbatim
   * @{
   */
-
-
 
 
 /**
@@ -507,7 +505,6 @@ HAL_StatusTypeDef HAL_HASHEx_SHA256_Finish(HASH_HandleTypeDef *hhash, uint8_t *p
   */
 
 
-
 /**
   * @brief  Initialize the HASH peripheral in HMAC SHA224 mode, next process pInBuffer then
   *         read the computed digest.
@@ -570,7 +567,6 @@ HAL_StatusTypeDef HAL_HMACEx_SHA256_Start(HASH_HandleTypeDef *hhash, const uint8
   */
 
 
-
 /**
   * @brief  Initialize the HASH peripheral in HMAC SHA224 mode, next process pInBuffer then
   *         read the computed digest in interrupt mode.
@@ -608,8 +604,6 @@ HAL_StatusTypeDef HAL_HMACEx_SHA256_Start_IT(HASH_HandleTypeDef *hhash, const ui
 }
 
 
-
-
 /**
   * @}
   */
@@ -637,7 +631,6 @@ HAL_StatusTypeDef HAL_HMACEx_SHA256_Start_IT(HASH_HandleTypeDef *hhash, const ui
 @endverbatim
   * @{
   */
-
 
 
 /**
@@ -898,7 +891,8 @@ HAL_StatusTypeDef HAL_HMACEx_SHA1_Step2_3_DMA(HASH_HandleTypeDef *hhash, const u
   * @param  Size length of the input buffer in bytes.
   * @retval HAL status
   */
-HAL_StatusTypeDef HAL_HMACEx_SHA224_Step1_2_DMA(HASH_HandleTypeDef *hhash, const uint8_t *const pInBuffer, uint32_t Size)
+HAL_StatusTypeDef HAL_HMACEx_SHA224_Step1_2_DMA(HASH_HandleTypeDef *hhash, const uint8_t *const pInBuffer,
+                                                uint32_t Size)
 {
   hhash->DigestCalculationDisable = SET;
   return  HMAC_Start_DMA(hhash, pInBuffer, Size, HASH_ALGOSELECTION_SHA224);
@@ -945,7 +939,8 @@ HAL_StatusTypeDef HAL_HMACEx_SHA224_Step2_DMA(HASH_HandleTypeDef *hhash, const u
   * @param  Size length of the input buffer in bytes.
   * @retval HAL status
   */
-HAL_StatusTypeDef HAL_HMACEx_SHA224_Step2_3_DMA(HASH_HandleTypeDef *hhash, const uint8_t *const pInBuffer, uint32_t Size)
+HAL_StatusTypeDef HAL_HMACEx_SHA224_Step2_3_DMA(HASH_HandleTypeDef *hhash, const uint8_t *const pInBuffer,
+                                                uint32_t Size)
 {
   hhash->DigestCalculationDisable = RESET;
   return  HMAC_Start_DMA(hhash, pInBuffer, Size, HASH_ALGOSELECTION_SHA224);
@@ -967,7 +962,8 @@ HAL_StatusTypeDef HAL_HMACEx_SHA224_Step2_3_DMA(HASH_HandleTypeDef *hhash, const
   * @param  Size length of the input buffer in bytes.
   * @retval HAL status
   */
-HAL_StatusTypeDef HAL_HMACEx_SHA256_Step1_2_DMA(HASH_HandleTypeDef *hhash, const uint8_t *const pInBuffer, uint32_t Size)
+HAL_StatusTypeDef HAL_HMACEx_SHA256_Step1_2_DMA(HASH_HandleTypeDef *hhash, const uint8_t *const pInBuffer,
+                                                uint32_t Size)
 {
   hhash->DigestCalculationDisable = SET;
   return  HMAC_Start_DMA(hhash, pInBuffer, Size, HASH_ALGOSELECTION_SHA256);
@@ -1014,7 +1010,8 @@ HAL_StatusTypeDef HAL_HMACEx_SHA256_Step2_DMA(HASH_HandleTypeDef *hhash, const u
   * @param  Size length of the input buffer in bytes.
   * @retval HAL status
   */
-HAL_StatusTypeDef HAL_HMACEx_SHA256_Step2_3_DMA(HASH_HandleTypeDef *hhash, const uint8_t *const pInBuffer, uint32_t Size)
+HAL_StatusTypeDef HAL_HMACEx_SHA256_Step2_3_DMA(HASH_HandleTypeDef *hhash, const uint8_t *const pInBuffer,
+                                                uint32_t Size)
 {
   hhash->DigestCalculationDisable = RESET;
   return  HMAC_Start_DMA(hhash, pInBuffer, Size, HASH_ALGOSELECTION_SHA256);
