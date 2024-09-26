@@ -860,6 +860,10 @@ extern "C" {
 #define __HAL_HRTIM_SetCompare        __HAL_HRTIM_SETCOMPARE
 #define __HAL_HRTIM_GetCompare        __HAL_HRTIM_GETCOMPARE
 
+#if defined(STM32F3) || defined(STM32G4) || defined(STM32H7)
+#define HRTIMInterruptResquests  HRTIMInterruptRequests
+#endif /* STM32F3 || STM32G4 || STM32H7 */
+
 #if defined(STM32G4)
 #define HAL_HRTIM_ExternalEventCounterConfig    HAL_HRTIM_ExtEventCounterConfig
 #define HAL_HRTIM_ExternalEventCounterEnable    HAL_HRTIM_ExtEventCounterEnable
