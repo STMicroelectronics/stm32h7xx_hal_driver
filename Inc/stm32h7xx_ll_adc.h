@@ -386,12 +386,12 @@ extern "C" {
 #endif /* ADC_VER_V5_3 */
 
 #define TEMPSENSOR_CAL1_TEMP               (30L)                        /* Internal temperature sensor, temperature at which temperature sensor has been calibrated in production for data into TEMPSENSOR_CAL1_ADDR (tolerance: +-5 DegC) (unit: DegC). */
-#if defined (STM32H742xx) || defined (STM32H743xx) || defined (STM32H753xx) 
+#if defined (STM32H742xx) || defined (STM32H743xx) || defined (STM32H753xx) || defined (STM32H750xx)
 #define TEMPSENSOR_CAL2_TEMP               ((((DBGMCU->IDCODE) >> 16) <= ((uint32_t)0x1003)) ? 110L : 130L)            /* Internal temperature sensor , 
                                            temperature at which temperature sensor has been calibrated in production for data into TEMPSENSOR_CAL2_ADDR
                                             110 °C for revision Y and 130 °C for revision V (tolerance: +-5 DegC) (unit: DegC). */
 #else
-#define TEMPSENSOR_CAL2_TEMP               (110L)                       /* Internal temperature sensor, temperature at which temperature sensor has been
+#define TEMPSENSOR_CAL2_TEMP               (130L)                       /* Internal temperature sensor, temperature at which temperature sensor has been
                                            calibrated in production for data into TEMPSENSOR_CAL2_ADDR (tolerance: +-5 DegC) (unit: DegC). */
 #endif /* defined (STM32H742xx) || defined (STM32H743xx) || defined (STM32H753xx) */
 #define TEMPSENSOR_CAL_VREFANALOG          (3300UL)                     /* Analog voltage reference (Vref+) voltage with which temperature sensor has been calibrated in production (+-10 mV) (unit: mV). */
