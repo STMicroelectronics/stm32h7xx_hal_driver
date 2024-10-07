@@ -1473,8 +1473,8 @@ typedef struct
   */
 #define HAL_ETH_STATE_RESET                0x00000000U    /*!< Peripheral not yet Initialized or disabled */
 #define HAL_ETH_STATE_READY                0x00000010U    /*!< Peripheral Communication started           */
-#define HAL_ETH_STATE_BUSY                 0x00000023U    /*!< an internal process is ongoing             */
-#define HAL_ETH_STATE_STARTED              0x00000023U    /*!< an internal process is started             */
+#define HAL_ETH_STATE_BUSY                 0x00000020U    /*!< an internal process is ongoing             */
+#define HAL_ETH_STATE_STARTED              0x00000040U    /*!< an internal process is started             */
 #define HAL_ETH_STATE_ERROR                0x000000E0U    /*!< Error State                                */
 /**
   * @}
