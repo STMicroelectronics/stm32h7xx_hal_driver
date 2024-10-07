@@ -1429,7 +1429,7 @@ HAL_StatusTypeDef HAL_ETH_ReleaseTxPacket(ETH_HandleTypeDef *heth)
 #ifdef HAL_ETH_USE_PTP
 
         /* Disable Ptp transmission */
-        CLEAR_BIT(heth->Init.TxDesc[idx].DESC3, (0x40000000U));
+        CLEAR_BIT(heth->Init.TxDesc[idx].DESC2, ETH_DMATXNDESCRF_TTSE);
 
         if ((heth->Init.TxDesc[idx].DESC3 & ETH_DMATXNDESCWBF_LD)
             && (heth->Init.TxDesc[idx].DESC3 & ETH_DMATXNDESCWBF_TTSS))
